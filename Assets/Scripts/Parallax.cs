@@ -2,10 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+/*
+TODO: IT DOES NOT WORK AAAAAAAAAAAAAAAAAA
+*/
+
 public class Parallax : MonoBehaviour {
 	public Color Tint = new Color(0.4f, 0.4f, 0.4f);
 	public Vector2 Offset = new Vector2(0, 1.5f);
 	public Sprite[] BackgroundSprites;
+
+	public float SpriteScale = 1;
 
 	SpriteRenderer[] Rnds;
 
@@ -17,8 +24,6 @@ public class Parallax : MonoBehaviour {
 
 		for (int i = 0; i < BackgroundSprites.Length; i++)
 			Rnds[i] = AddSpriteRenderer(-100 - i, BackgroundSprites[i], i >= BackgroundSprites.Length - 1 ? (Color?)null : Tint);
-
-		transform.position = new Vector3(Offset.x, Offset.y, 0);
 	}
 
 	SpriteRenderer AddSpriteRenderer(int Order, Sprite S, Color? Tint = null) {
@@ -27,6 +32,7 @@ public class Parallax : MonoBehaviour {
 		RndObj.transform.localPosition = Vector3.zero;
 
 		SpriteRenderer Rnd = RndObj.AddComponent<SpriteRenderer>();
+		Rnd.transform.localScale = new Vector3(SpriteScale, SpriteScale, 1);
 		Rnd.sortingOrder = Order;
 		Rnd.sprite = S;
 
@@ -34,15 +40,5 @@ public class Parallax : MonoBehaviour {
 			Rnd.color = Tint.Value;
 
 		return Rnd;
-	}
-
-	void Update() {
-		Camera Cur = Camera.current;
-
-		if (Cur == null)
-			return;
-
-		Vector3 CamPos = Cur.transform.position;
-		transform.position = new Vector3(CamPos.x + Offset.x, CamPos.y + Offset.y, 0);
 	}
 }
