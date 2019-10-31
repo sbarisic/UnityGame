@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using Game.Scripts;
 
 public class CameraScript : MonoBehaviour {
 	public Material PostProcessingMat;
@@ -17,12 +18,25 @@ public class CameraScript : MonoBehaviour {
 	}
 
 	void LateUpdate() {
-		// TODO: Horizontal smoothing and vertical offset
-
 		if (FollowObject == null)
 			return;
 
-		transform.position = new Vector3(FollowObject.transform.position.x, FollowObject.transform.position.y, transform.position.z);
+		// TODO: Horizontal smoothing and vertical offset
+		Vector2 FollowPos = new Vector2(FollowObject.transform.position.x, FollowObject.transform.position.y);
+		Vector2 CurPos = new Vector2(transform.position.x, transform.position.y);
+
+		float DistX = 0;
+		float DistY = 0;
+
+		if (Utilities.DistanceX(FollowPos, CurPos, out DistX) > 2) {
+			// TODO: Better way?
+			if (DistX > 0)
+				CurPos = CurPos + new Vector2(DistX - 2, 0);
+			else
+				CurPos = CurPos + new Vector2(DistX + 2, 0);
+		}
+
+		transform.position = new Vector3(CurPos.x, CurPos.y, transform.position.z);
 	}
 
 	void OnRenderImage(RenderTexture Src, RenderTexture Dst) {
