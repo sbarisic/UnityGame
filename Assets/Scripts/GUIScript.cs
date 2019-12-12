@@ -6,9 +6,11 @@ using UnityEngine.SceneManagement;
 
 public class GUIScript : MonoBehaviour {
 	public Button BtnContinue;
+	public Image BackgroundImage;
 
 	void Start() {
 		BtnContinue?.gameObject.SetActive(false);
+		BackgroundImage?.gameObject.SetActive(false);
 	}
 
 	public void OnButtonClick(string Action) {
