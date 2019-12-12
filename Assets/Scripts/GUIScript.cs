@@ -12,8 +12,8 @@ public class GUIScript : MonoBehaviour {
 
 	}
 
-	void CreateButton(string Name) {
-
+	public void OnButtonClick(string Action) {
+		Debug.Log("You clicked " + Action);
 	}
 
 	void Update() {
