@@ -5,11 +5,10 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GUIScript : MonoBehaviour {
-	//public GameObject MenuPanel;
+	public Button BtnContinue;
 
 	void Start() {
-
-
+		BtnContinue?.gameObject.SetActive(false);
 	}
 
 	public void OnButtonClick(string Action) {
