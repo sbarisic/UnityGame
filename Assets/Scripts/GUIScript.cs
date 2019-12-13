@@ -21,12 +21,14 @@ public class GUIScript : MonoBehaviour {
 	Action OnNo;
 
 	void Start() {
+		DontDestroyOnLoad(this.gameObject);
+
 		BtnContinue?.gameObject.SetActive(false);
 		BackgroundImage?.gameObject.SetActive(false);
 
 		YesNoAnim = PanelYesNo.GetComponent<Animator>();
 		YesNoAnim.SetBool("open", false);
-			}
+	}
 
 	public void OnButtonClick(string Action) {
 		if (Action == "yes") {
