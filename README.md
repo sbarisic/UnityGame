@@ -1,5 +1,5 @@
 # UnityGame
-Game project using the Unity 2019.2
+Game project using the Unity 2018.4.15f1
 
 # Assets used
 
