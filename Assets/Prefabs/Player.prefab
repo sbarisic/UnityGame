@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 983285420909437659}
   m_Layer: 8
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -145,10 +145,11 @@ MonoBehaviour:
   jumpForce: 10
   feetPos: {fileID: 983285420071897742}
   checkRadius: 0.03
+  jumpTime: 0.35
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
-  jumpTime: 0.35
+  bulletPrefab: {fileID: 0}
 --- !u!50 &983285420909437659
 Rigidbody2D:
   serializedVersion: 4

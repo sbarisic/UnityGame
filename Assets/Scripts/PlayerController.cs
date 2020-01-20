@@ -7,16 +7,18 @@ public class PlayerController : MonoBehaviour {
 
 	public float movementSpeed;
 	public float jumpForce;
-	private float horizontalMoveInput;
 
-	private bool isGrounded;
 	public Transform feetPos;
 	public float checkRadius;
-	public LayerMask whatIsGround;
-
-	private float jumpTimeCounter;
 	public float jumpTime;
-	private bool isJumping;
+	public LayerMask whatIsGround;
+	public GameObject bulletPrefab;
+
+	Vector2 lookDir;
+	float horizontalMoveInput;
+	float jumpTimeCounter;
+	bool isGrounded;
+	bool isJumping;
 
 	void Start() {
 		body2d = GetComponent<Rigidbody2D>();
@@ -32,17 +34,19 @@ public class PlayerController : MonoBehaviour {
 
 		if (horizontalMoveInput > 0) {
 			transform.eulerAngles = new Vector3(0, 180, 0);
+			lookDir = new Vector2(1, 0);
 		} else if (horizontalMoveInput < 0) {
 			transform.eulerAngles = new Vector3(0, 0, 0);
+			lookDir = new Vector2(-1, 0);
 		}
 
-		if (isGrounded == true && Input.GetKeyDown(KeyCode.Space)) {
+		if (isGrounded == true && Input.GetButtonDown("Jump")) {
 			isJumping = true;
 			jumpTimeCounter = jumpTime;
 			body2d.velocity = Vector2.up * jumpForce;
 		}
 
-		if (Input.GetKey(KeyCode.Space) && isJumping == true) {
+		if (Input.GetButton("Jump") && isJumping == true) {
 			if (jumpTimeCounter > 0) {
 				body2d.velocity = Vector2.up * jumpForce;
 				jumpTimeCounter -= Time.deltaTime;
@@ -51,8 +55,19 @@ public class PlayerController : MonoBehaviour {
 			}
 		}
 
-		if (Input.GetKeyUp(KeyCode.Space)) {
+		if (Input.GetButtonUp("Jump")) {
 			isJumping = false;
 		}
+
+		if (Input.GetButtonDown("Fire1"))
+			FireGun(lookDir);
+	}
+
+	// TODO: Move bullet speed to a variable
+	void FireGun(Vector2 Dir, float Speed = 16, float Damage = 10) {
+		GameObject Bullet = ObjectPool.Alloc(bulletPrefab);
+
+		Bullet.transform.position = transform.position;
+		Bullet.GetComponent<BulletController>().OnBulletCreated(Dir, Speed, Damage, Time.time, Tags.BulletPlayer);
 	}
 }
