@@ -14,7 +14,7 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -28,31 +28,6 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1101 &1101207049350323066
-AnimatorStateTransition:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_Conditions:
-  - m_ConditionMode: 3
-    m_ConditionEvent: x
-    m_EventTreshold: 0
-  m_DstStateMachine: {fileID: 0}
-  m_DstState: {fileID: 1102004910032128872}
-  m_Solo: 0
-  m_Mute: 0
-  m_IsExit: 0
-  serializedVersion: 3
-  m_TransitionDuration: 0.25
-  m_TransitionOffset: 0
-  m_ExitTime: 0.75
-  m_HasExitTime: 0
-  m_HasFixedDuration: 1
-  m_InterruptionSource: 0
-  m_OrderedInterruption: 1
-  m_CanTransitionToSelf: 1
 --- !u!1101 &1101591025034691136
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -186,26 +161,25 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 1102004910032128872}
-    m_Position: {x: 408, y: 0, z: 0}
+    m_Position: {x: 72, y: 288, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102425071019620680}
     m_Position: {x: 408, y: 60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 1102217606545588950}
-    m_Position: {x: 12, y: 120, z: 0}
+    m_Position: {x: 24, y: 72, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: 1101928758842214716}
-  - {fileID: 1101207049350323066}
   - {fileID: 1101591025034691136}
   m_EntryTransitions: []
   m_StateMachineTransitions: {}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 168, y: 24, z: 0}
   m_EntryPosition: {x: 36, y: 216, z: 0}
-  m_ExitPosition: {x: 240, y: 180, z: 0}
+  m_ExitPosition: {x: 252, y: 108, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 1102217606545588950}
+  m_DefaultState: {fileID: 1102004910032128872}
 --- !u!1107 &1107869175206134558
 AnimatorStateMachine:
   serializedVersion: 5
