@@ -97,7 +97,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0
+  m_GravityScale: 5
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -131,3 +131,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61c1b827feb36fa4ca6247e748d51748, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  FirstWaypoint: {fileID: 0}
+  LinkToClosest: 0
+  StartAtWaypoint: 1
+  IsFlying: 1
+  FlipTowardsMoveDir: 1
+  RotTowardsMoveDir: 0
+  SmoothRotation: 0
+  SmoothRate: 360

@@ -9,6 +9,7 @@ TagManager:
   - BulletPlayer
   - BulletEnemy
   - Enemy
+  - Waypoint
   layers:
   - Default
   - TransparentFX
