@@ -31,6 +31,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Update() {
 		isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
+		// body2d.sharedMaterial.friction = isGrounded ? 0.4f : 0.0f;
 
 		if (horizontalMoveInput > 0) {
 			transform.eulerAngles = new Vector3(0, 180, 0);
@@ -61,6 +62,27 @@ public class PlayerController : MonoBehaviour {
 
 		if (Input.GetButtonDown("Fire1"))
 			FireGun(lookDir);
+	}
+
+	ContactPoint2D[] Contacts = new ContactPoint2D[16];
+
+	void OnCollisionEnter2D(Collision2D Other) {
+		int NumContacts = Other.GetContacts(Contacts);
+
+		for (int i = 0; i < NumContacts; i++) {
+			ContactPoint2D CP = Contacts[i];
+			float NormalAngle = Utils.Angle(Vector2.zero, CP.normal);
+
+			if (NormalAngle < 135 && NormalAngle > 45) {
+				Debug.Log("Hit floor");
+			}
+
+
+
+			Debug.DrawLine(CP.point, CP.point + CP.normal * 1, Color.white, 5);
+		}
+
+		//Debug.Log("Collision enter " + NumContacts);
 	}
 
 	// TODO: Move bullet speed to a variable
