@@ -149,7 +149,8 @@ MonoBehaviour:
   whatIsGround:
     serializedVersion: 2
     m_Bits: 1
-  bulletPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 4169193405955462441, guid: b17e3dc594fef924f827d65b31b52e90,
+    type: 3}
 --- !u!50 &983285420909437659
 Rigidbody2D:
   serializedVersion: 4

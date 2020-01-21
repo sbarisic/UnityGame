@@ -34,6 +34,12 @@ public class BulletController : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D Other) {
+		// Bullet hits ground
+		if (Other.tag == Tags.Ground) {
+			ObjectPool.Free(gameObject);
+			return;
+		}
+
 		// When bullet fired by player hits enemy
 		if (tag == Tags.BulletPlayer && Other.tag == Tags.Enemy) {
 			EnemyController ECtrl = Other.gameObject.GetComponent<EnemyController>();
