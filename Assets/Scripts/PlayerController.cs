@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour {
 
 	void Start() {
 		body2d = GetComponent<Rigidbody2D>();
+		lookDir = new Vector2(1, 0);
 	}
 
 	void FixedUpdate() {

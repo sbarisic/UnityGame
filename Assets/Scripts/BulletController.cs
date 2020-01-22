@@ -26,6 +26,7 @@ public class BulletController : MonoBehaviour {
 
 	void FixedUpdate() {
 		body2d.velocity = DirNormal * Speed;
+		transform.rotation = Quaternion.Euler(0, 0, Utils.Angle(Vector2.zero, DirNormal));
 	}
 
 	void Update() {

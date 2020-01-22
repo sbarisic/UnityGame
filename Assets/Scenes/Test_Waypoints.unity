@@ -220,6 +220,11 @@ PrefabInstance:
       propertyPath: FirstWaypoint
       value: 
       objectReference: {fileID: 384369156}
+    - target: {fileID: 114358620581451850, guid: e6c4d5fbc004e5d4b9655c8949410588,
+        type: 3}
+      propertyPath: ReachDistance
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2153741890877374473, guid: e6c4d5fbc004e5d4b9655c8949410588,
         type: 3}
       propertyPath: m_Name
@@ -313,6 +318,16 @@ PrefabInstance:
         type: 3}
       propertyPath: SmoothRotation
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114358620581451850, guid: e6c4d5fbc004e5d4b9655c8949410588,
+        type: 3}
+      propertyPath: StartAtWaypoint
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114358620581451850, guid: e6c4d5fbc004e5d4b9655c8949410588,
+        type: 3}
+      propertyPath: ReachDistance
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 2153741890877374473, guid: e6c4d5fbc004e5d4b9655c8949410588,
         type: 3}
@@ -1217,6 +1232,11 @@ PrefabInstance:
         type: 3}
       propertyPath: RotTowardsMoveDir
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114358620581451850, guid: e6c4d5fbc004e5d4b9655c8949410588,
+        type: 3}
+      propertyPath: ReachDistance
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2153741890877374473, guid: e6c4d5fbc004e5d4b9655c8949410588,
         type: 3}

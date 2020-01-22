@@ -14,6 +14,7 @@ public class EnemyController : MonoBehaviour {
 	// Teleport to first waypoint
 	[Space(10)]
 	public bool StartAtWaypoint = true;
+	public float ReachDistance = 1.0f;
 	public bool IsFlying = true;
 
 	// Flip texture X when changing horizontal movement direction
@@ -60,7 +61,7 @@ public class EnemyController : MonoBehaviour {
 		if (Application.isEditor && !Application.isPlaying)
 			return;
 
-		if (DistanceToWaypoint() < 1) {
+		if (DistanceToWaypoint() < ReachDistance) {
 			if (NextWaypoint != null)
 				OnWaypointReached(NextWaypoint);
 
@@ -143,6 +144,9 @@ public class EnemyController : MonoBehaviour {
 		if (FirstWaypoint != null) {
 			Gizmos.color = Selection.Contains(gameObject) ? Color.green : Color.white;
 			Utils.DrawArrow(transform.position, FirstWaypoint.transform.position);
+
+			Gizmos.color = Color.yellow;
+			Gizmos.DrawWireSphere(transform.position, ReachDistance);
 		}
 	}
 }
