@@ -13,6 +13,7 @@ public class Waypoint : MonoBehaviour {
 	public bool AssignNext;
 	public bool LinkToClosest;
 	public string WaypointName;
+	public bool Reverse;
 
 	void Start() {
 		tag = Tags.Waypoint;

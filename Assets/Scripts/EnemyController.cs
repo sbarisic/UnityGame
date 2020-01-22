@@ -31,6 +31,9 @@ public class EnemyController : MonoBehaviour {
 	bool HasSpawned = false;
 	float MoveSpeed = 4;
 
+	bool IsReversing;
+	Stack<Waypoint> VisitedWaypoints = new Stack<Waypoint>();
+
 	void Start() {
 		if (Application.isEditor && !Application.isPlaying)
 			return;
@@ -51,10 +54,11 @@ public class EnemyController : MonoBehaviour {
 	/// </summary>
 	/// <param name="Wp"></param>
 	protected virtual void OnWaypointReached(Waypoint Wp) {
-		if (Wp.WaypointName == "fast")
-			MoveSpeed = 8;
-		else if (Wp.WaypointName == "slow")
-			MoveSpeed = 2;
+		if (Wp.Reverse)
+			IsReversing = true;
+
+		if (!IsReversing)
+			VisitedWaypoints.Push(Wp);
 	}
 
 	void FixedUpdate() {
@@ -128,6 +132,16 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void FetchNextWaypoint() {
+		if (IsReversing) {
+			if (VisitedWaypoints.Count > 0) {
+				NextWaypoint = VisitedWaypoints.Pop();
+				return;
+			}
+
+			VisitedWaypoints.Push(FirstWaypoint);
+			IsReversing = false;
+		}
+
 		if (NextWaypoint != null)
 			NextWaypoint = NextWaypoint.Next;
 
