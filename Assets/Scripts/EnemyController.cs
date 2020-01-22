@@ -46,7 +46,15 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	public virtual void DealDamage(float Amt) {
-		rnd.color = Utils.RandomColor();
+		//rnd.color = Utils.RandomColor();
+		rnd.color = new Color(0.47f, 0.08f, 0.05f);
+
+		StartCoroutine(ChangeColor());
+	}
+
+	IEnumerator ChangeColor() {
+		yield return new WaitForSeconds(0.1f);
+		rnd.color = Color.white;
 	}
 
 	/// <summary>

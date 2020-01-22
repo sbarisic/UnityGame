@@ -61,8 +61,12 @@ public class PlayerController : MonoBehaviour {
 			isJumping = false;
 		}
 
-		if (Input.GetButtonDown("Fire1"))
-			FireGun(lookDir);
+		if (Input.GetButtonDown("Fire1")) {
+			if (Input.GetMouseButtonDown(0)) {
+
+			} else
+				FireGun(lookDir);
+		}
 	}
 
 	ContactPoint2D[] Contacts = new ContactPoint2D[16];

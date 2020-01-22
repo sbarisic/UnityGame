@@ -17,6 +17,7 @@ static class Utils {
 		return new Color(RandomFloat(), RandomFloat(), RandomFloat(), 1.0f);
 	}
 
+
 	public static void DrawArrow(Vector2 Start, Vector2 End, float ArrowHeadLength = 0.5f) {
 		Vector2 Mid = (Start + End) / 2;
 		Vector2 Dir = (Vector2)Vector3.Normalize(End - Start) * ArrowHeadLength;
