@@ -468,7 +468,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.3, y: 3.87, z: -10}
+  m_LocalPosition: {x: 66.29, y: 4.53, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 357421030}
@@ -517,6 +517,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5146303467760956943, guid: 7e58d63d8f5b05141918f32cf2c10bde,
+        type: 3}
+      propertyPath: FirstWaypoint
+      value: 
+      objectReference: {fileID: 1944757044}
+    - target: {fileID: 5342968001061967768, guid: 7e58d63d8f5b05141918f32cf2c10bde,
+        type: 3}
+      propertyPath: LinkToClosest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5342968001061967768, guid: 7e58d63d8f5b05141918f32cf2c10bde,
         type: 3}
       propertyPath: FirstWaypoint
       value: 
@@ -8338,7 +8348,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1228529204}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 32.3, y: 3.87, z: -10}
+  m_LocalPosition: {x: 66.29, y: 4.53, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1860237693}
@@ -9028,12 +9038,12 @@ PrefabInstance:
     - target: {fileID: 983285420909437658, guid: 77e8b7830f5c2da48bb9cfc09784461f,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 32.3
+      value: 66.29
       objectReference: {fileID: 0}
     - target: {fileID: 983285420909437658, guid: 77e8b7830f5c2da48bb9cfc09784461f,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.87
+      value: 4.53
       objectReference: {fileID: 0}
     - target: {fileID: 983285420909437658, guid: 77e8b7830f5c2da48bb9cfc09784461f,
         type: 3}
@@ -9090,6 +9100,16 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5146303467760956943, guid: 7e58d63d8f5b05141918f32cf2c10bde,
+        type: 3}
+      propertyPath: FirstWaypoint
+      value: 
+      objectReference: {fileID: 1928862417}
+    - target: {fileID: 5342968001061967768, guid: 7e58d63d8f5b05141918f32cf2c10bde,
+        type: 3}
+      propertyPath: LinkToClosest
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5342968001061967768, guid: 7e58d63d8f5b05141918f32cf2c10bde,
         type: 3}
       propertyPath: FirstWaypoint
       value: 

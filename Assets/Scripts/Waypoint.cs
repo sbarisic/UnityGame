@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System;
-using UnityEditor;
 using UnityEngine;
 
 [ExecuteInEditMode]
@@ -59,7 +58,7 @@ public class Waypoint : MonoBehaviour {
 
 		// If this item is being selected and dragged
 		// link automatically to a waypoint closer than 1 unit
-		if (Next == null && Selection.Contains(gameObject)) {
+		if (Next == null && EditorUtils.SelectionContains(gameObject)) {
 			LinkToClosestWaypoint(1);
 			Dirty = true;
 		}
@@ -94,13 +93,13 @@ public class Waypoint : MonoBehaviour {
 		}
 
 		if (Dirty)
-			EditorUtility.SetDirty(this);
+			EditorUtils.SetDirty(this);
 	}
 
 	void OnDrawGizmos() {
 		const float SphereSize = 0.25f;
 
-		bool IsSelected = Selection.Contains(gameObject);
+		bool IsSelected = EditorUtils.SelectionContains(gameObject);
 
 		if (IsSelected) {
 			if (string.IsNullOrWhiteSpace(WaypointName))
@@ -115,7 +114,7 @@ public class Waypoint : MonoBehaviour {
 		}
 
 		Gizmos.DrawWireSphere(transform.position, SphereSize);
-		Handles.Label((Vector2)transform.position + new Vector2(0, SphereSize * 2.5f), name);
+		EditorUtils.DrawLabel((Vector2)transform.position + new Vector2(0, SphereSize * 2.5f), name);
 
 		if (Next != null) {
 			Gizmos.color = IsSelected ? Color.green : Color.white;

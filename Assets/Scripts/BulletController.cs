@@ -44,7 +44,7 @@ public class BulletController : MonoBehaviour {
 		// When bullet fired by player hits enemy
 		if (tag == Tags.BulletPlayer && Other.tag == Tags.Enemy) {
 			EnemyController ECtrl = Other.gameObject.GetComponent<EnemyController>();
-			ECtrl.DealDamage(Damage);
+			ECtrl.OnReceiveDamage(Damage);
 
 			ObjectPool.Free(gameObject);
 			return;

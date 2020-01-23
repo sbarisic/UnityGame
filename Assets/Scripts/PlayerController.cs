@@ -63,7 +63,8 @@ public class PlayerController : MonoBehaviour {
 
 		if (Input.GetButtonDown("Fire1")) {
 			if (Input.GetMouseButtonDown(0)) {
-
+				Vector2 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+				FireGun((MousePos - (Vector2)transform.position).normalized);
 			} else
 				FireGun(lookDir);
 		}
@@ -79,7 +80,7 @@ public class PlayerController : MonoBehaviour {
 			float NormalAngle = Utils.Angle(Vector2.zero, CP.normal);
 
 			if (NormalAngle < 135 && NormalAngle > 45) {
-				Debug.Log("Hit floor");
+				//Debug.Log("Hit floor");
 			}
 
 

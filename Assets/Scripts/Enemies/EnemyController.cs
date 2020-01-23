@@ -1,12 +1,15 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
-using UnityEditor;
 
 [ExecuteInEditMode]
 public class EnemyController : MonoBehaviour {
-	Rigidbody2D body2d;
-	SpriteRenderer rnd;
+	// Enemy variables, available in derived classes
+	protected Rigidbody2D body2d;
+	protected SpriteRenderer rnd;
+
+	protected float Health = 10;
 
 	public Waypoint FirstWaypoint;
 	public bool LinkToClosest;
@@ -43,13 +46,26 @@ public class EnemyController : MonoBehaviour {
 
 		if (IsFlying)
 			body2d.gravityScale = 0;
+
+		OnStart();
 	}
 
-	public virtual void DealDamage(float Amt) {
-		//rnd.color = Utils.RandomColor();
-		rnd.color = new Color(0.47f, 0.08f, 0.05f);
+	public virtual void OnStart() {
+	}
 
+	public virtual void OnReceiveDamage(float Amt) {
+		Health -= Amt;
+		rnd.color = new Color(0.47f, 0.08f, 0.05f);
 		StartCoroutine(ChangeColor());
+
+		if (Health <= 0) {
+			Health = 0;
+			OnDie();
+		}
+	}
+
+	public virtual void OnDie() {
+		ObjectPool.Free(gameObject);
 	}
 
 	IEnumerator ChangeColor() {
@@ -86,6 +102,11 @@ public class EnemyController : MonoBehaviour {
 			body2d.velocity = MoveVelocity;
 		else
 			body2d.velocity = new Vector2(MoveVelocity.x, body2d.velocity.y);
+
+		OnFixedUpdate();
+	}
+
+	public virtual void OnFixedUpdate() {
 	}
 
 	void Update() {
@@ -115,13 +136,18 @@ public class EnemyController : MonoBehaviour {
 			} else
 				transform.rotation = Quaternion.Euler(0, 0, DirAngle);
 		}
+
+		OnUpdate();
+	}
+
+	public virtual void OnUpdate() {
 	}
 
 	void UpdateInEditor() {
 		if (LinkToClosest) {
 			LinkToClosest = false;
 			FirstWaypoint = Utils.GetClosestWaypoint(transform.position);
-			EditorUtility.SetDirty(this);
+			EditorUtils.SetDirty(this);
 		}
 	}
 
@@ -164,7 +190,7 @@ public class EnemyController : MonoBehaviour {
 
 	void OnDrawGizmos() {
 		if (FirstWaypoint != null) {
-			Gizmos.color = Selection.Contains(gameObject) ? Color.green : Color.white;
+			Gizmos.color = EditorUtils.SelectionContains(gameObject) ? Color.green : Color.white;
 			Utils.DrawArrow(transform.position, FirstWaypoint.transform.position);
 
 			Gizmos.color = Color.yellow;

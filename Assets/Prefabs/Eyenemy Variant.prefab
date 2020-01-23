@@ -19,6 +19,27 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &5342968001061967768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6565896298583404108}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba4130e89cc4f15408d2553155d7f974, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  FirstWaypoint: {fileID: 0}
+  LinkToClosest: 0
+  StartAtWaypoint: 1
+  ReachDistance: 1
+  IsFlying: 1
+  FlipTowardsMoveDir: 1
+  RotTowardsMoveDir: 0
+  SmoothRotation: 0
+  SmoothRate: 360
 --- !u!1001 &5115279059600961093
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34,7 +55,7 @@ PrefabInstance:
     - target: {fileID: 2153741890877374473, guid: e6c4d5fbc004e5d4b9655c8949410588,
         type: 3}
       propertyPath: m_Name
-      value: Eyenemy
+      value: Eyenemy Variant
       objectReference: {fileID: 0}
     - target: {fileID: 2153741890877374473, guid: e6c4d5fbc004e5d4b9655c8949410588,
         type: 3}
@@ -132,7 +153,8 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 114358620581451850, guid: e6c4d5fbc004e5d4b9655c8949410588, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e6c4d5fbc004e5d4b9655c8949410588, type: 3}
 --- !u!1 &6565896298583404108 stripped
 GameObject:
