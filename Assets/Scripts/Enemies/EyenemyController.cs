@@ -6,6 +6,10 @@ using UnityEditor;
 public class EyenemyController : EnemyController {
 	public override void OnStart() {
 		base.OnStart();
-		Health = 20;
+		health = 20;
+	}
+
+	public override void OnReceiveDamage(int Amt) {
+		base.OnReceiveDamage(Amt);
 	}
 }

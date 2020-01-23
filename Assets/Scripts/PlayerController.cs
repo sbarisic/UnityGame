@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
-	Rigidbody2D body2d;
 
-	public int health;
+public class PlayerController : Character {
 
 	public float movementSpeed;
 	public float jumpForce;
@@ -25,10 +23,9 @@ public class PlayerController : MonoBehaviour {
 	Vector2 lookDir;
 
 
-
-	void Start() {
-		body2d = GetComponent<Rigidbody2D>();
+	public override void OnStart() {
 		lookDir = new Vector2(1, 0);
+		health = 20;
 	}
 
 	void FixedUpdate() {
@@ -70,7 +67,7 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButtonDown("Fire1")) {
 			if (Input.GetMouseButtonDown(0)) {
 				Vector2 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				FireGun((MousePos - (Vector2)transform.position).normalized);
+				FireGun((MousePos - (Vector2)transf7u7orm.position).normalized);
 			} else
 				FireGun(lookDir);
 		}
@@ -81,8 +78,16 @@ public class PlayerController : MonoBehaviour {
 
 	private void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.tag == "Enemy") {
-			//	IronBallHitHandler();
+
+			//TODO: handle damage amount
+			OnReceiveDamage(1);
 			Debug.Log("Collision with: " + collision.gameObject.tag);
+		}
+	}
+
+	private void OnTriggerEnter2D(Collider2D collision) {
+		if (collision.gameObject.tag == "Portal") {
+			Debug.Log("Next level");
 		}
 	}
 
@@ -105,8 +110,9 @@ public class PlayerController : MonoBehaviour {
 		//Debug.Log("Collision enter " + NumContacts);
 	}*/
 
+
 	// TODO: Move bullet speed to a variable
-	void FireGun(Vector2 Dir, float Speed = 16, float Damage = 10) {
+	void FireGun(Vector2 Dir, float Speed = 16, int Damage = 10) {
 		GameObject Bullet = ObjectPool.Alloc(bulletPrefab);
 
 		Bullet.transform.position = transform.position;

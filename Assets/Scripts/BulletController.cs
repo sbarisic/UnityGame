@@ -6,11 +6,11 @@ public class BulletController : MonoBehaviour {
 	Vector2 DirNormal;
 	float Speed;
 	float DestroyTime;
-	float Damage;
+	int Damage;
 
 	Rigidbody2D body2d;
 
-	public void OnBulletCreated(Vector3 DirNormal, float Speed, float Damage, float CreationTime, string Tag) {
+	public void OnBulletCreated(Vector3 DirNormal, float Speed, int Damage, float CreationTime, string Tag) {
 		this.DirNormal = DirNormal;
 		this.Speed = Speed;
 		this.Damage = Damage;
@@ -45,6 +45,7 @@ public class BulletController : MonoBehaviour {
 		if (tag == Tags.BulletPlayer && Other.tag == Tags.Enemy) {
 			EnemyController ECtrl = Other.gameObject.GetComponent<EnemyController>();
 			ECtrl.OnReceiveDamage(Damage);
+			//ECtrl.OnReceiveDamage(Damage);
 
 			ObjectPool.Free(gameObject);
 			return;

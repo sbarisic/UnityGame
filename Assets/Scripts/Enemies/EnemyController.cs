@@ -2,15 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using UnityEngine;
+using Debug = UnityEngine.Debug;
 
-[ExecuteInEditMode]
-public class EnemyController : MonoBehaviour {
-	// Enemy variables, available in derived classes
-	protected Rigidbody2D body2d;
-	protected SpriteRenderer rnd;
 
-	protected float Health = 10;
-
+public class EnemyController : Character {
+	
 	public Waypoint FirstWaypoint;
 	public bool LinkToClosest;
 
@@ -37,40 +33,12 @@ public class EnemyController : MonoBehaviour {
 	bool IsReversing;
 	Stack<Waypoint> VisitedWaypoints = new Stack<Waypoint>();
 
-	void Start() {
-		if (Application.isEditor && !Application.isPlaying)
-			return;
+	
 
-		body2d = GetComponent<Rigidbody2D>();
-		rnd = GetComponent<SpriteRenderer>();
+	public override void OnStart() {
 
 		if (IsFlying)
 			body2d.gravityScale = 0;
-
-		OnStart();
-	}
-
-	public virtual void OnStart() {
-	}
-
-	public virtual void OnReceiveDamage(float Amt) {
-		Health -= Amt;
-		rnd.color = new Color(0.47f, 0.08f, 0.05f);
-		StartCoroutine(ChangeColor());
-
-		if (Health <= 0) {
-			Health = 0;
-			OnDie();
-		}
-	}
-
-	public virtual void OnDie() {
-		ObjectPool.Free(gameObject);
-	}
-
-	IEnumerator ChangeColor() {
-		yield return new WaitForSeconds(0.1f);
-		rnd.color = Color.white;
 	}
 
 	/// <summary>
