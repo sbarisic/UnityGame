@@ -5,6 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 	Rigidbody2D body2d;
 
+	public int health;
+
 	public float movementSpeed;
 	public float jumpForce;
 
@@ -12,13 +14,17 @@ public class PlayerController : MonoBehaviour {
 	public float checkRadius;
 	public float jumpTime;
 	public LayerMask whatIsGround;
-	public GameObject bulletPrefab;
 
-	Vector2 lookDir;
 	float horizontalMoveInput;
 	float jumpTimeCounter;
 	bool isGrounded;
 	bool isJumping;
+
+	public GameObject bulletPrefab;
+
+	Vector2 lookDir;
+
+
 
 	void Start() {
 		body2d = GetComponent<Rigidbody2D>();
@@ -72,7 +78,15 @@ public class PlayerController : MonoBehaviour {
 
 	ContactPoint2D[] Contacts = new ContactPoint2D[16];
 
-	void OnCollisionEnter2D(Collision2D Other) {
+
+	private void OnCollisionEnter2D(Collision2D collision) {
+		if (collision.gameObject.tag == "Enemy") {
+			//	IronBallHitHandler();
+			Debug.Log("Collision with: " + collision.gameObject.tag);
+		}
+	}
+
+	/*void OnCollisionEnter2D(Collision2D Other) {
 		int NumContacts = Other.GetContacts(Contacts);
 
 		for (int i = 0; i < NumContacts; i++) {
@@ -89,7 +103,7 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		//Debug.Log("Collision enter " + NumContacts);
-	}
+	}*/
 
 	// TODO: Move bullet speed to a variable
 	void FireGun(Vector2 Dir, float Speed = 16, float Damage = 10) {
