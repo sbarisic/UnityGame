@@ -29,14 +29,15 @@ public class Character : MonoBehaviour {
 
 	public virtual void OnReceiveDamage(int Amt) {
 
+		health -= Amt;
+		rnd.color = new Color(0.47f, 0.08f, 0.05f);
+		StartCoroutine(ChangeColor());
+
 		if (health <= 0) {
 			//Health = 0;
 			OnDie();
-		} else {
-			health -= Amt;
-			rnd.color = new Color(0.47f, 0.08f, 0.05f);
-			StartCoroutine(ChangeColor());
-		}
+		} 
+
 	}
 
 	public virtual void OnDie() {
