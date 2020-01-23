@@ -67,7 +67,7 @@ public class PlayerController : Character {
 		if (Input.GetButtonDown("Fire1")) {
 			if (Input.GetMouseButtonDown(0)) {
 				Vector2 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				FireGun((MousePos - (Vector2)transf7u7orm.position).normalized);
+				FireGun((MousePos - (Vector2)transform.position).normalized);
 			} else
 				FireGun(lookDir);
 		}
