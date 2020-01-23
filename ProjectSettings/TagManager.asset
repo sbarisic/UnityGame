@@ -10,6 +10,7 @@ TagManager:
   - BulletEnemy
   - Enemy
   - Waypoint
+  - Portal
   layers:
   - Default
   - TransparentFX

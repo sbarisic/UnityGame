@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class PlayerController : Character {
 
+	public Animator anim;
+
 	public float movementSpeed;
 	public float jumpForce;
 
@@ -34,8 +36,14 @@ public class PlayerController : Character {
 	}
 
 	void Update() {
+
+		anim.SetFloat("Speed", Mathf.Abs(horizontalMoveInput));
+
+		anim.SetBool("Shooting", false);
+
 		isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
 		// body2d.sharedMaterial.friction = isGrounded ? 0.4f : 0.0f;
+
 
 		if (horizontalMoveInput > 0) {
 			transform.eulerAngles = new Vector3(0, 180, 0);
@@ -45,8 +53,10 @@ public class PlayerController : Character {
 			lookDir = new Vector2(-1, 0);
 		}
 
+
 		if (isGrounded == true && Input.GetButtonDown("Jump")) {
 			isJumping = true;
+			anim.SetBool("isJumping", isJumping);
 			jumpTimeCounter = jumpTime;
 			body2d.velocity = Vector2.up * jumpForce;
 		}
@@ -57,19 +67,23 @@ public class PlayerController : Character {
 				jumpTimeCounter -= Time.deltaTime;
 			} else {
 				isJumping = false;
+				anim.SetBool("isJumping", isJumping);
 			}
 		}
 
 		if (Input.GetButtonUp("Jump")) {
 			isJumping = false;
+			anim.SetBool("isJumping", isJumping);
 		}
 
 		if (Input.GetButtonDown("Fire1")) {
-			if (Input.GetMouseButtonDown(0)) {
+
+			/*if (Input.GetMouseButtonDown(0)) {
 				Vector2 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 				FireGun((MousePos - (Vector2)transform.position).normalized);
-			} else
-				FireGun(lookDir);
+			} else*/
+
+			FireGun(lookDir);
 		}
 	}
 
@@ -113,6 +127,9 @@ public class PlayerController : Character {
 
 	// TODO: Move bullet speed to a variable
 	void FireGun(Vector2 Dir, float Speed = 16, int Damage = 10) {
+
+		anim.SetBool("Shooting", true);
+
 		GameObject Bullet = ObjectPool.Alloc(bulletPrefab);
 
 		Bullet.transform.position = transform.position;
