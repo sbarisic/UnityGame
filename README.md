@@ -8,3 +8,5 @@ Game project using the Unity 2018.4.15f1
 * Pixel effects pack - https://codemanu.itch.io/pixelart-effect-pack
 * StrangeTemple - https://anokolisa.itch.io/strange-temple
 * MagicCliffs - https://ansimuz.itch.io/magic-cliffs-environment
+
+* PixelGameArt - http://pixelgameart.org/web/
