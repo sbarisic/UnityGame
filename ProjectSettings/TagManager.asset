@@ -11,6 +11,7 @@ TagManager:
   - Enemy
   - Waypoint
   - Portal
+  - Death
   layers:
   - Default
   - TransparentFX

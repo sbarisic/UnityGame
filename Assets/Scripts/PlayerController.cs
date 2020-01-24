@@ -46,10 +46,10 @@ public class PlayerController : Character {
 
 
 		if (horizontalMoveInput > 0) {
-			transform.eulerAngles = new Vector3(0, 180, 0);
+			transform.eulerAngles = new Vector3(0, 0, 0);
 			lookDir = new Vector2(1, 0);
 		} else if (horizontalMoveInput < 0) {
-			transform.eulerAngles = new Vector3(0, 0, 0);
+			transform.eulerAngles = new Vector3(0, 180, 0);
 			lookDir = new Vector2(-1, 0);
 		}
 
@@ -98,6 +98,7 @@ public class PlayerController : Character {
 			Debug.Log("Collision with: " + collision.gameObject.tag);
 		}
 	}
+
 
 	private void OnTriggerEnter2D(Collider2D collision) {
 		if (collision.gameObject.tag == "Portal") {
