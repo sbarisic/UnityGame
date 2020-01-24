@@ -24,20 +24,18 @@ public class LevelManager : MonoBehaviour {
 	public void RespawnPlayer() {
 		//Debug.Log("Player ought to be respawned");
 
-		vcam.enabled = false;
-		vcam.enabled = true;
-
-
 		StartCoroutine(RespawnDelay());
-
 	}
 
 	IEnumerator RespawnDelay() {
 		player.gameObject.SetActive(false);
+		vcam.enabled = false;
+
 		yield return new WaitForSeconds(1);
 
 		player.gameObject.SetActive(true);
 		Vector2 spawnPoint = currCheckpoint.transform.position;
 		player.transform.position = new Vector3(spawnPoint.x, spawnPoint.y, player.transform.position.z);
+		vcam.enabled = true;
 	}
 }

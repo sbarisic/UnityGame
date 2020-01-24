@@ -36,9 +36,10 @@ public class PlayerController : Character {
 	}
 
 	void Update() {
+		if (Application.isEditor && !Application.isPlaying)
+			return;
 
 		anim.SetFloat("Speed", Mathf.Abs(horizontalMoveInput));
-
 		anim.SetBool("Shooting", false);
 
 		isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
