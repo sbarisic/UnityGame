@@ -23,7 +23,7 @@ public class PlayerController : Character {
 	public GameObject bulletPrefab;
 
 	Vector2 lookDir;
-
+	float lastHitAngle = 90;
 
 	public override void OnStart() {
 		lookDir = new Vector2(1, 0);
@@ -32,6 +32,18 @@ public class PlayerController : Character {
 
 	void FixedUpdate() {
 		horizontalMoveInput = Input.GetAxisRaw("Horizontal");
+
+		//Debug.Log(string.Format("MoveInput = {0}, Angle = {1}", horizontalMoveInput, lastHitAngle));
+
+		if (lastHitAngle > 135 && horizontalMoveInput > 0)
+			horizontalMoveInput = 0;
+		else if (lastHitAngle < 45 && horizontalMoveInput < 0)
+			horizontalMoveInput = 0;
+
+		/*if (lastHitAngle < 135 && lastHitAngle > 45) {
+
+		}*/
+
 		body2d.velocity = new Vector2(horizontalMoveInput * movementSpeed, body2d.velocity.y);
 	}
 
@@ -97,6 +109,20 @@ public class PlayerController : Character {
 			//TODO: handle damage amount
 			OnReceiveDamage(1);
 			Debug.Log("Collision with: " + collision.gameObject.tag);
+		}
+
+		int NumContacts = collision.GetContacts(Contacts);
+
+		for (int i = 0; i < NumContacts; i++) {
+			ContactPoint2D CP = Contacts[i];
+			float NormalAngle = Utils.Angle(Vector2.zero, CP.normal);
+
+			lastHitAngle = NormalAngle;
+			/*if (NormalAngle < 135 && NormalAngle > 45) {
+				//Debug.Log("Hit floor");
+			} else {
+				// Debug.Log("AYYYYYYYYYYY LMAO");
+			}*/
 		}
 	}
 
