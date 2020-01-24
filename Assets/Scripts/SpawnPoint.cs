@@ -20,7 +20,7 @@ public class SpawnPoint : MonoBehaviour
 
 	private void OnTriggerEnter2D(Collider2D collision) {
 		if (collision.gameObject.tag == "Player") {
-			lvlMng.currCheckpoint = gameObject;
+			collision.gameObject.GetComponent<PlayerController>().currCheckpoint = gameObject;
 		}
 	}
 }

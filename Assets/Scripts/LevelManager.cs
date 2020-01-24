@@ -28,7 +28,10 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	IEnumerator RespawnDelay() {
+		//Vector2 deathPoint = player.gameObject.transform.position;
+
 		player.gameObject.SetActive(false);
+		
 		vcam.enabled = false;
 
 		yield return new WaitForSeconds(1);

@@ -1,11 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 
 public class PlayerController : Character {
 
 	public Animator anim;
+
+	public CinemachineVirtualCamera vcam;
+	public GameObject currCheckpoint;
 
 	public float movementSpeed;
 	public float jumpForce;
@@ -100,8 +104,32 @@ public class PlayerController : Character {
 		}
 	}
 
-	ContactPoint2D[] Contacts = new ContactPoint2D[16];
+	public override void OnDie() {
+		gameObject.SetActive(false);
+		vcam.enabled = false;
 
+		// TODO: Coroutines
+		Respawn();
+		//StartCoroutine(DelayAndRespawn());
+	}
+
+	IEnumerator DelayAndRespawn() {
+		yield return new WaitForSeconds(2);
+		Respawn();
+	}
+
+	public override void Respawn() {
+		health = 20;
+		gameObject.SetActive(true);
+		Vector2 spawnPoint = currCheckpoint.transform.position;
+		transform.position = new Vector3(spawnPoint.x, spawnPoint.y, transform.position.z);
+		vcam.enabled = true;
+
+		// TODO: Fix color
+		rnd.color = Color.white;
+	}
+
+	ContactPoint2D[] Contacts = new ContactPoint2D[16];
 
 	private void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.tag == "Enemy") {

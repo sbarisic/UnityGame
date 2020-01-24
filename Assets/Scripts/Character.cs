@@ -41,8 +41,11 @@ public class Character : MonoBehaviour {
 	}
 
 	public virtual void OnDie() {
-		Debug.Log(this.gameObject + "I died");
+		Debug.Log(this.gameObject + " died");
 		ObjectPool.Free(gameObject);
+	}
+
+	public virtual void Respawn() {
 	}
 
 	IEnumerator ChangeColor() {
