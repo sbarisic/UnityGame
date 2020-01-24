@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cinemachine;
 
 public class LevelManager : MonoBehaviour {
 
 	public GameObject currCheckpoint;
 
 	private PlayerController player;
+
+	public CinemachineVirtualCamera vcam;
 
 	// Start is called before the first frame update
 	void Start() {
@@ -19,7 +22,22 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	public void RespawnPlayer() {
-		Debug.Log("Player ought to be respawned");
-		player.transform.position = currCheckpoint.transform.position;
+		//Debug.Log("Player ought to be respawned");
+
+		vcam.enabled = false;
+		vcam.enabled = true;
+
+
+		StartCoroutine(RespawnDelay());
+
+	}
+
+	IEnumerator RespawnDelay() {
+		player.gameObject.SetActive(false);
+		yield return new WaitForSeconds(1);
+
+		player.gameObject.SetActive(true);
+		Vector2 spawnPoint = currCheckpoint.transform.position;
+		player.transform.position = new Vector3(spawnPoint.x, spawnPoint.y, player.transform.position.z);
 	}
 }

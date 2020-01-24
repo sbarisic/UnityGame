@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -46,10 +46,10 @@ public class PlayerController : Character {
 
 
 		if (horizontalMoveInput > 0) {
-			transform.eulerAngles = new Vector3(0, 0, 0);
+			rnd.flipX = true;
 			lookDir = new Vector2(1, 0);
 		} else if (horizontalMoveInput < 0) {
-			transform.eulerAngles = new Vector3(0, 180, 0);
+			rnd.flipX = false;
 			lookDir = new Vector2(-1, 0);
 		}
 
