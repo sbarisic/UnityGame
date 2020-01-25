@@ -29,6 +29,8 @@ public class PlayerController : Character {
 	Vector2 lookDir;
 	float lastHitAngle = 90;
 
+	bool touchedEnemy;
+
 	public override void OnStart() {
 		lookDir = new Vector2(1, 0);
 		health = 20;
@@ -38,11 +40,12 @@ public class PlayerController : Character {
 		horizontalMoveInput = Input.GetAxisRaw("Horizontal");
 
 		//Debug.Log(string.Format("MoveInput = {0}, Angle = {1}", horizontalMoveInput, lastHitAngle));
-
-		if (lastHitAngle > 135 && horizontalMoveInput > 0)
-			horizontalMoveInput = 0;
-		else if (lastHitAngle < 45 && horizontalMoveInput < 0)
-			horizontalMoveInput = 0;
+		if (!touchedEnemy) {
+			if (lastHitAngle > 135 && horizontalMoveInput > 0)
+				horizontalMoveInput = 0;
+			else if (lastHitAngle < 45 && horizontalMoveInput < 0)
+				horizontalMoveInput = 0;
+		}
 
 		/*if (lastHitAngle < 135 && lastHitAngle > 45) {
 
@@ -133,6 +136,7 @@ public class PlayerController : Character {
 
 	private void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.tag == "Enemy") {
+			touchedEnemy = true;
 
 			//TODO: handle damage amount
 			OnReceiveDamage(1);
@@ -158,6 +162,11 @@ public class PlayerController : Character {
 	private void OnTriggerEnter2D(Collider2D collision) {
 		if (collision.gameObject.tag == "Portal") {
 			Debug.Log("Next level");
+		}
+
+		if (collision.gameObject.tag == "Death") {
+			OnDie();
+
 		}
 	}
 
