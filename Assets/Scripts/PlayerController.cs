@@ -8,6 +8,8 @@ public class PlayerController : Character {
 
 	public Animator anim;
 
+	public GameObject deathParticle;
+
 	public CinemachineVirtualCamera vcam;
 	public GameObject currCheckpoint;
 
@@ -108,6 +110,7 @@ public class PlayerController : Character {
 	}
 
 	public override void OnDie() {
+		Instantiate(deathParticle, gameObject.transform.position, gameObject.transform.rotation);
 		gameObject.SetActive(false);
 		vcam.enabled = false;
 
