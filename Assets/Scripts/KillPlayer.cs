@@ -18,9 +18,5 @@ public class KillPlayer : MonoBehaviour {
 
 		if (chr != null)
 			chr.OnReceiveDamage(999);
-
-		/*if (collision.gameObject.tag == "Player") {
-			lvlMng.RespawnPlayer();
-		}*/
 	}
 }

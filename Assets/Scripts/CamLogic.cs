@@ -19,7 +19,7 @@ public class CamLogic : MonoBehaviour {
 	}
 
 	void OnPreRender() {
-		if (Textures == null)
+		if (Textures == null || Cam == null)
 			return;
 
 		Vector2 PosDelta = LastCamPos - (Vector2)Cam.transform.position;
