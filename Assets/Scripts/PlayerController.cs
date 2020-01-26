@@ -17,7 +17,7 @@ public class PlayerController : Character {
 	public float jumpForce;
 
 	public Transform feetPos;
-	public float checkRadius;
+	float checkRadius = 0.499f;
 	public float jumpTime;
 	public LayerMask whatIsGround;
 
