@@ -244,25 +244,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 983285420785485922}
   m_PrefabAsset: {fileID: 0}
---- !u!95 &413002428
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413002422}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 311cc99671af62748b30e7a46eebc032, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 1
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &430916267
 GameObject:
   m_ObjectHideFlags: 0
@@ -1220,22 +1201,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 983285420909437653, guid: 77e8b7830f5c2da48bb9cfc09784461f,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300062, guid: fd8258975bdc4ee4c958d7de37297941,
-        type: 3}
-    - target: {fileID: 983285420909437653, guid: 77e8b7830f5c2da48bb9cfc09784461f,
-        type: 3}
-      propertyPath: m_FlipX
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 983285420909437656, guid: 77e8b7830f5c2da48bb9cfc09784461f,
-        type: 3}
-      propertyPath: anim
-      value: 
-      objectReference: {fileID: 413002428}
     - target: {fileID: 983285420909437656, guid: 77e8b7830f5c2da48bb9cfc09784461f,
         type: 3}
       propertyPath: vcam
@@ -1246,12 +1211,6 @@ PrefabInstance:
       propertyPath: currCheckpoint
       value: 
       objectReference: {fileID: 1059273287}
-    - target: {fileID: 983285420909437656, guid: 77e8b7830f5c2da48bb9cfc09784461f,
-        type: 3}
-      propertyPath: deathParticle
-      value: 
-      objectReference: {fileID: 6863530577217458894, guid: c25f759fcf8a76d47b844cab97ed47d9,
-        type: 3}
     - target: {fileID: 983285420909437658, guid: 77e8b7830f5c2da48bb9cfc09784461f,
         type: 3}
       propertyPath: m_LocalPosition.x
