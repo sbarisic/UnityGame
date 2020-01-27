@@ -5,7 +5,7 @@ using Cinemachine;
 using System.Threading;
 
 public class PlayerController : Character {
-
+ 
 	public Animator anim;
 
 	public GameObject deathParticle;

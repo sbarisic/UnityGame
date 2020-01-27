@@ -80,20 +80,24 @@ public class EnemyController : Character {
 		return 1;
 	}
 
+	public virtual void DoFlipTowardsMoveDir(Vector2 MoveDir) {
+		if (MoveDir.x > 0) {
+			rnd.flipX = false;
+		} else if (MoveDir.x < 0) {
+			rnd.flipX = true;
+		}
+	}
+
 	public override void OnUpdate() {
 		Vector2 MoveDir = body2d.velocity.normalized;
 		float DirAngle = Utils.Angle(Vector2.zero, MoveDir);
 		float CurDirAngle = transform.rotation.eulerAngles.z;
 
 		if (FlipTowardsMoveDir) {
-			if (MoveDir.x > 0) {
-				rnd.flipX = false;
-			} else if (MoveDir.x < 0) {
-				rnd.flipX = true;
+			DoFlipTowardsMoveDir(MoveDir);
 
-				if (RotTowardsMoveDir)
-					DirAngle += 180;
-			}
+			if (MoveDir.x < 0 && RotTowardsMoveDir)
+				DirAngle += 180;
 		}
 
 		if (RotTowardsMoveDir) {
@@ -112,12 +116,13 @@ public class EnemyController : Character {
 		}
 	}
 
-	Vector2 GetNextWaypointPos() {
+	public virtual Vector2 GetNextWaypointPos() {
 		if (NextWaypoint == null)
 			return transform.position;
 
 		return NextWaypoint.transform.position;
 	}
+
 
 	float DistanceToWaypoint() {
 		if (NextWaypoint == null)
