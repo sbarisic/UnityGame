@@ -22,6 +22,7 @@ public class Character : MonoBehaviour {
 		body2d = GetComponent<Rigidbody2D>();
 		rnd = GetComponent<SpriteRenderer>();
 
+		if (Application.isPlaying)
 		OnStart();
 	}
 
@@ -40,8 +41,29 @@ public class Character : MonoBehaviour {
 
 	}
 
+	public virtual void SpawnParticles(GameObject Prefab) {
+		GameObject partObj = ObjectPool.Alloc(Prefab);
+		partObj.transform.position = transform.position;
+		partObj.transform.rotation = transform.rotation;
+	}
+
+	private void Update() {
+		if (Application.isEditor && !Application.isPlaying) {
+			OnUpdateInEditor();
+			return;
+		}
+
+		OnUpdate();
+	}
+
+	public virtual void OnUpdate() {
+	}
+
+	public virtual void OnUpdateInEditor() {
+	}
+
 	public virtual void OnDie() {
-		Debug.Log(this.gameObject + " died");
+		//Debug.Log(this.gameObject + " died");
 		ObjectPool.Free(gameObject);
 	}
 

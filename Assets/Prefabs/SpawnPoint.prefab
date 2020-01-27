@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8811527221272494749}
   - component: {fileID: 8811527221272494748}
   - component: {fileID: 5399037828248328064}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 3936346786652291628, guid: 0000000000000000d000000000000000, type: 0}
@@ -44,7 +44,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73bba1d8437acc54eb1c1082471b3bd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lvlMng: {fileID: 0}
 --- !u!58 &5399037828248328064
 CircleCollider2D:
   m_ObjectHideFlags: 0

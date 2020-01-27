@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class CoroutineMgr : MonoBehaviour {
 	static CoroutineMgr Mgr;
@@ -18,5 +19,9 @@ public class CoroutineMgr : MonoBehaviour {
 
 	public static void Start(IEnumerator Coroutine) {
 		GetInstance().StartCoroutine(Coroutine);
+	}
+
+	public static void Start(Func<IEnumerator> CoroutineFunc) {
+		Start(CoroutineFunc());
 	}
 }

@@ -17,7 +17,10 @@ public class PlayerController : Character {
 	public float jumpForce;
 
 	public Transform feetPos;
+	public Transform gunPos;
+
 	float checkRadius = 0.499f;
+	float fireRatePause = 0.5f;
 	public float jumpTime;
 	public LayerMask whatIsGround;
 
@@ -30,12 +33,11 @@ public class PlayerController : Character {
 
 	Vector2 lookDir;
 	float lastHitAngle = 90;
-
+	float nextFireTime;
 	bool touchedEnemy;
 
 	public override void OnStart() {
-		lookDir = new Vector2(1, 0);
-		health = 20;
+		Respawn();
 	}
 
 	void FixedUpdate() {
@@ -56,10 +58,7 @@ public class PlayerController : Character {
 		body2d.velocity = new Vector2(horizontalMoveInput * movementSpeed, body2d.velocity.y);
 	}
 
-	void Update() {
-		if (Application.isEditor && !Application.isPlaying)
-			return;
-
+	public override void OnUpdate() {
 		anim.SetFloat("Speed", Mathf.Abs(horizontalMoveInput));
 		anim.SetBool("Shooting", false);
 
@@ -98,19 +97,17 @@ public class PlayerController : Character {
 			anim.SetBool("isJumping", isJumping);
 		}
 
-		if (Input.GetButtonDown("Fire1")) {
-
-			/*if (Input.GetMouseButtonDown(0)) {
-				Vector2 MousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-				FireGun((MousePos - (Vector2)transform.position).normalized);
-			} else*/
-
-			FireGun(lookDir);
+		if (Input.GetButton("Fire1")) {
+			if (nextFireTime <= Time.time) {
+				nextFireTime = Time.time + fireRatePause;
+				FireGun(lookDir);
+			}
 		}
 	}
 
 	public override void OnDie() {
-		Instantiate(deathParticle, gameObject.transform.position, gameObject.transform.rotation);
+		SpawnParticles(deathParticle);
+
 		gameObject.SetActive(false);
 		vcam.enabled = false;
 
@@ -122,30 +119,32 @@ public class PlayerController : Character {
 	}
 
 	IEnumerator DelayAndRespawn() {
-
 		yield return new WaitForSeconds(2);
 		Respawn();
 	}
 
 	public override void Respawn() {
-		health = 20;
 		gameObject.SetActive(true);
+
+		health = 20;
+		lookDir = new Vector2(1, 0);
+
 		Vector2 spawnPoint = currCheckpoint.transform.position;
 		transform.position = new Vector3(spawnPoint.x, spawnPoint.y, transform.position.z);
 		vcam.enabled = true;
 
 		// TODO: Fix color
 		rnd.color = Color.white;
+		SpawnParticles(deathParticle);
 	}
 
 	ContactPoint2D[] Contacts = new ContactPoint2D[16];
 
-	private void OnCollisionEnter2D(Collision2D collision) {
+	void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.tag == "Enemy") {
 			touchedEnemy = true;
 
-			//TODO: handle damage amount
-			OnReceiveDamage(1);
+			OnReceiveDamage(collision.gameObject.GetComponent<EnemyController>()?.GetPlayerDamage() ?? 1);
 			Debug.Log("Collision with: " + collision.gameObject.tag);
 		}
 
@@ -153,26 +152,16 @@ public class PlayerController : Character {
 
 		for (int i = 0; i < NumContacts; i++) {
 			ContactPoint2D CP = Contacts[i];
-			float NormalAngle = Utils.Angle(Vector2.zero, CP.normal);
-
-			lastHitAngle = NormalAngle;
-			/*if (NormalAngle < 135 && NormalAngle > 45) {
-				//Debug.Log("Hit floor");
-			} else {
-				// Debug.Log("AYYYYYYYYYYY LMAO");
-			}*/
+			lastHitAngle = Utils.Angle(Vector2.zero, CP.normal);
 		}
 	}
 
+	void OnCollisionExit2D(Collision2D collision) {
+		lastHitAngle = 90;
+	}
 
 	private void OnTriggerEnter2D(Collider2D collision) {
-		if (collision.gameObject.tag == "Portal") {
-			Debug.Log("Next level");
-		}
 
-		/*if (collision.gameObject.tag == "Death") {
-			OnDie();
-		}*/
 	}
 
 	/*void OnCollisionEnter2D(Collision2D Other) {
@@ -197,12 +186,15 @@ public class PlayerController : Character {
 
 	// TODO: Move bullet speed to a variable
 	void FireGun(Vector2 Dir, float Speed = 16, int Damage = 10) {
-
 		anim.SetBool("Shooting", true);
 
 		GameObject Bullet = ObjectPool.Alloc(bulletPrefab);
 
-		Bullet.transform.position = transform.position;
-		Bullet.GetComponent<BulletController>().OnBulletCreated(Dir, Speed, Damage, Time.time, Tags.BulletPlayer);
+		Vector2 localGunPos = gunPos.localPosition;
+		if (!rnd.flipX)
+			localGunPos *= new Vector2(-1, 1);
+
+		Bullet.transform.position = transform.position + (Vector3)localGunPos;
+		Bullet.GetComponent<BulletController>().OnBulletCreated(Dir, Speed, Damage, Tags.BulletPlayer);
 	}
 }

@@ -10,13 +10,13 @@ public class BulletController : MonoBehaviour {
 
 	Rigidbody2D body2d;
 
-	public void OnBulletCreated(Vector3 DirNormal, float Speed, int Damage, float CreationTime, string Tag) {
+	public void OnBulletCreated(Vector3 DirNormal, float Speed, int Damage, string Tag) {
 		this.DirNormal = DirNormal;
 		this.Speed = Speed;
 		this.Damage = Damage;
 
 		// TODO: Bullet alive for max 2 seconds, move to variable
-		DestroyTime = CreationTime + 2.0f;
+		DestroyTime = Time.time + 1.0f;
 		tag = Tag;
 	}
 

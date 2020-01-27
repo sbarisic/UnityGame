@@ -135,7 +135,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300012, guid: f4c8b95542ca8c54f99c94fed1d78584,
+      objectReference: {fileID: 21300008, guid: fd8258975bdc4ee4c958d7de37297941,
         type: 3}
     - target: {fileID: 3908124279604667157, guid: e6c4d5fbc004e5d4b9655c8949410588,
         type: 3}
@@ -147,10 +147,25 @@ PrefabInstance:
       propertyPath: m_SortingLayer
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3908124279604667157, guid: e6c4d5fbc004e5d4b9655c8949410588,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1.2083334
+      objectReference: {fileID: 0}
+    - target: {fileID: 3908124279604667157, guid: e6c4d5fbc004e5d4b9655c8949410588,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.2083334
+      objectReference: {fileID: 0}
     - target: {fileID: 4689255077237413634, guid: e6c4d5fbc004e5d4b9655c8949410588,
         type: 3}
       propertyPath: m_Constraints
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4689255077237413634, guid: e6c4d5fbc004e5d4b9655c8949410588,
+        type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6c4d5fbc004e5d4b9655c8949410588, type: 3}

@@ -6,7 +6,7 @@ using Debug = UnityEngine.Debug;
 
 
 public class EnemyController : Character {
-	
+
 	public Waypoint FirstWaypoint;
 	public bool LinkToClosest;
 
@@ -33,10 +33,9 @@ public class EnemyController : Character {
 	bool IsReversing;
 	Stack<Waypoint> VisitedWaypoints = new Stack<Waypoint>();
 
-	
+
 
 	public override void OnStart() {
-
 		if (IsFlying)
 			body2d.gravityScale = 0;
 	}
@@ -77,12 +76,11 @@ public class EnemyController : Character {
 	public virtual void OnFixedUpdate() {
 	}
 
-	void Update() {
-		if (Application.isEditor && !Application.isPlaying) {
-			UpdateInEditor();
-			return;
-		}
+	public virtual int GetPlayerDamage() {
+		return 1;
+	}
 
+	public override void OnUpdate() {
 		Vector2 MoveDir = body2d.velocity.normalized;
 		float DirAngle = Utils.Angle(Vector2.zero, MoveDir);
 		float CurDirAngle = transform.rotation.eulerAngles.z;
@@ -104,14 +102,9 @@ public class EnemyController : Character {
 			} else
 				transform.rotation = Quaternion.Euler(0, 0, DirAngle);
 		}
-
-		OnUpdate();
 	}
 
-	public virtual void OnUpdate() {
-	}
-
-	void UpdateInEditor() {
+	public override void OnUpdateInEditor() {
 		if (LinkToClosest) {
 			LinkToClosest = false;
 			FirstWaypoint = Utils.GetClosestWaypoint(transform.position);
