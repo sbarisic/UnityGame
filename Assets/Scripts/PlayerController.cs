@@ -36,8 +36,14 @@ public class PlayerController : Character {
 	float nextFireTime;
 	bool touchedEnemy;
 
+	
+
 	public override void OnStart() {
+		Vector3 Pos = transform.position;
+
 		Respawn();
+
+		transform.position = Pos;
 	}
 
 	void FixedUpdate() {
