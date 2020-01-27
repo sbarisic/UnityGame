@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 983285420909437657}
   - component: {fileID: 983285420909437656}
   - component: {fileID: 983285420909437659}
+  - component: {fileID: 413002428}
   m_Layer: 8
   m_Name: Player
   m_TagString: Player
@@ -100,11 +101,11 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -2135752819
-  m_SortingLayer: 2
+  m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300134, guid: f4c8b95542ca8c54f99c94fed1d78584, type: 3}
+  m_Sprite: {fileID: 21300062, guid: fd8258975bdc4ee4c958d7de37297941, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.32, y: 0.52}
@@ -141,6 +142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e18c40ce13527b74fab8f67e31335ca1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  anim: {fileID: 413002428}
+  deathParticle: {fileID: 6863530577217458894, guid: c25f759fcf8a76d47b844cab97ed47d9,
+    type: 3}
+  vcam: {fileID: 0}
+  currCheckpoint: {fileID: 0}
   movementSpeed: 7
   jumpForce: 10
   feetPos: {fileID: 983285420071897742}
@@ -172,3 +178,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!95 &413002428
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 983285420909437652}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 311cc99671af62748b30e7a46eebc032, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 1
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0

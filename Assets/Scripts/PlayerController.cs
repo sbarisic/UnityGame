@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cinemachine;
-
+using System.Threading;
 
 public class PlayerController : Character {
 
@@ -17,7 +17,7 @@ public class PlayerController : Character {
 	public float jumpForce;
 
 	public Transform feetPos;
-	public float checkRadius;
+	float checkRadius = 0.499f;
 	public float jumpTime;
 	public LayerMask whatIsGround;
 
@@ -115,11 +115,14 @@ public class PlayerController : Character {
 		vcam.enabled = false;
 
 		// TODO: Coroutines
-		Respawn();
+		//Respawn();
 		//StartCoroutine(DelayAndRespawn());
+
+		CoroutineMgr.Start(DelayAndRespawn());
 	}
 
 	IEnumerator DelayAndRespawn() {
+
 		yield return new WaitForSeconds(2);
 		Respawn();
 	}
@@ -167,10 +170,9 @@ public class PlayerController : Character {
 			Debug.Log("Next level");
 		}
 
-		if (collision.gameObject.tag == "Death") {
+		/*if (collision.gameObject.tag == "Death") {
 			OnDie();
-
-		}
+		}*/
 	}
 
 	/*void OnCollisionEnter2D(Collision2D Other) {
