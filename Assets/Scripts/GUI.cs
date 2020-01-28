@@ -4,12 +4,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GUI : MonoBehaviour {
-	// Start is called before the first frame update
+	public GameObject EventSystem;
+
 	void Start() {
+		DontDestroyOnLoad(gameObject);
+		DontDestroyOnLoad(EventSystem);
+	}
+
+	void ResetCamera() {
 
 	}
 
-	// Update is called once per frame
 	void Update() {
 
 	}

@@ -11,7 +11,6 @@ using System.Collections;
 //handles main players and NPCs mutual properties (receiving damage) 
 [ExecuteInEditMode]
 public class Character : MonoBehaviour {
-
 	protected Rigidbody2D body2d;
 	protected SpriteRenderer rnd;
 
@@ -29,7 +28,6 @@ public class Character : MonoBehaviour {
 	public virtual void OnStart() {	}
 
 	public virtual void OnReceiveDamage(int Amt) {
-
 		health -= Amt;
 		rnd.color = new Color(0.47f, 0.08f, 0.05f);
 		StartCoroutine(ChangeColor());

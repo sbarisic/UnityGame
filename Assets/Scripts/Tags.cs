@@ -11,4 +11,5 @@ static class Tags {
 	public const string Enemy = "Enemy";
 	public const string Ground = "Ground";
 	public const string Waypoint = "Waypoint";
+	public const string Gibs = "Gibs";
 }

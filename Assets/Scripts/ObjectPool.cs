@@ -39,9 +39,13 @@ static class ObjectPool {
 		return New;
 	}
 
-	public static void Free(GameObject Obj) {
+	public static bool Free(GameObject Obj) {
+		if (!Obj.activeInHierarchy)
+			return false;
+
 		Obj.SetActive(false);
 		Pooled.Add(Obj);
+		return true;
 	}
 
 	static bool IsPrefabInstance(GameObject Prefab, GameObject Instance) {

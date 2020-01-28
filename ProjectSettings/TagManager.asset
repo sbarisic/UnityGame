@@ -12,6 +12,7 @@ TagManager:
   - Waypoint
   - Portal
   - Death
+  - Gibs
   layers:
   - Default
   - TransparentFX
@@ -24,7 +25,7 @@ TagManager:
   - Player
   - Background
   - Trigger
-  - 
+  - Gibs
   - 
   - 
   - 
@@ -57,4 +58,7 @@ TagManager:
     locked: 0
   - name: Foreground
     uniqueID: 921587757
+    locked: 0
+  - name: Gibs
+    uniqueID: 3408793315
     locked: 0

@@ -10,12 +10,25 @@ using Random = System.Random;
 static class Utils {
 	static Random Rnd = new Random();
 
+	public static T Random<T>(T[] Arr) {
+		if (Arr.Length == 0)
+			return default(T);
+
+		return Arr[Rnd.Next(0, Arr.Length)];
+	}
+
 	public static float RandomFloat() {
 		return (float)Rnd.NextDouble();
 	}
 
 	public static Color RandomColor() {
 		return new Color(RandomFloat(), RandomFloat(), RandomFloat(), 1.0f);
+	}
+
+	public static Vector2 NormalFromAngle(float Angle) {
+		Angle = Angle * Mathf.Deg2Rad;
+
+		return new Vector2(Mathf.Cos(Angle), Mathf.Sin(Angle)).normalized;
 	}
 
 	public static bool SameSign(float A, float B) {

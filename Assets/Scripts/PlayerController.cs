@@ -5,7 +5,7 @@ using Cinemachine;
 using System.Threading;
 
 public class PlayerController : Character {
- 
+
 	public Animator anim;
 
 	public GameObject deathParticle;
@@ -36,7 +36,7 @@ public class PlayerController : Character {
 	float nextFireTime;
 	bool touchedEnemy;
 
-	
+
 
 	public override void OnStart() {
 		Vector3 Pos = transform.position;
@@ -113,6 +113,7 @@ public class PlayerController : Character {
 
 	public override void OnDie() {
 		SpawnParticles(deathParticle);
+		Gib.SpawnRandomGibs(transform.position, 5);
 
 		gameObject.SetActive(false);
 		vcam.enabled = false;

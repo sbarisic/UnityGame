@@ -52,6 +52,11 @@ public class EnemyController : Character {
 			VisitedWaypoints.Push(Wp);
 	}
 
+	public override void OnDie() {
+		Gib.SpawnRandomGibs(transform.position, 5);
+		base.OnDie();
+	}
+
 	void FixedUpdate() {
 		if (Application.isEditor && !Application.isPlaying)
 			return;
