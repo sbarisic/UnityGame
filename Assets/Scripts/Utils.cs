@@ -18,6 +18,16 @@ static class Utils {
 		return new Color(RandomFloat(), RandomFloat(), RandomFloat(), 1.0f);
 	}
 
+	public static bool SameSign(float A, float B) {
+		if (A < 0 && B < 0)
+			return true;
+
+		if (A > 0 && B > 0)
+			return true;
+
+		return false;
+	}
+
 
 	public static void DrawArrow(Vector2 Start, Vector2 End, float ArrowHeadLength = 0.5f) {
 		Vector2 Mid = (Start + End) / 2;

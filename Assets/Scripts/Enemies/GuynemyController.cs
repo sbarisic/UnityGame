@@ -13,41 +13,57 @@ public class GuynemyController : EnemyController {
 	GameObject testPoint;
 
 	public float followRadius = 8.55f;
-	float hitRange = 3f;
+	float hitRange = 1.5f;
 	bool isHitting;
+	bool isCooldown;
+	Vector2 lastMoveDir;
 
 	public override void OnStart() {
 		player = GameObject.FindGameObjectWithTag(Tags.Player);
 		anim = GetComponent<Animator>();
-
 		IsFlying = false;
-		base.OnStart();
-		testPoint = transform.Find("TestPoint").gameObject;
-	}
 
+		base.OnStart();
+
+		testPoint = transform.Find("TestPoint").gameObject;
+		anim.SetBool("canHit", false);
+	}
 
 	public override void OnUpdate() {
 		base.OnUpdate();
-		float distance = Vector2.Distance(transform.position, player.transform.position);
+
+		float distance = float.PositiveInfinity;
+
+		if (player?.activeInHierarchy ?? false)
+			distance = Vector2.Distance(transform.position, player.transform.position);
 
 		playerInRange = distance < followRadius;
 		playerInHitRng = distance < hitRange;
 
-		anim.SetBool("canHit", playerInHitRng);
 		anim.SetFloat("Speed", Mathf.Abs(body2d.velocity.x));
 
-		if (playerInHitRng) {
+		if (playerInHitRng && !isHitting) {
+			anim.SetBool("canHit", true);
 			isHitting = true;
 			CoroutineMgr.Start(WaitAndStopHitting());
 		}
 	}
 
 	IEnumerator WaitAndStopHitting() {
-		yield return new WaitForSeconds(0.3f);
-		// TODO: Check if player in range again and apply damage if true
+		yield return new WaitForSeconds(0.2f);
 
-		yield return new WaitForSeconds(0.1f);
+		if (Vector2.Distance(transform.position, player.transform.position) < hitRange)
+			player?.GetComponent<PlayerController>()?.OnReceiveDamage(10);
+
+		anim.SetBool("canHit", false);
+		yield return new WaitForSeconds(1);
 		isHitting = false;
+	}
+
+	IEnumerator StartCooldown(float Time) {
+		isCooldown = transform;
+		yield return new WaitForSeconds(Time);
+		isCooldown = false;
 	}
 
 	public override void DoFlipTowardsMoveDir(Vector2 MoveDir) {
@@ -55,15 +71,20 @@ public class GuynemyController : EnemyController {
 	}
 
 	public override Vector2 GetNextWaypointPos() {
-		if (isHitting)
+		if (isHitting || isCooldown)
 			return transform.position;
 
 		if (playerInRange) {
-			Vector2 MoveDir = (Vector2)player.transform.position - (Vector2)transform.position;
-			MoveDir.y = 0;
-			MoveDir = MoveDir.normalized;
+			Vector2 moveDir = (Vector2)player.transform.position - (Vector2)transform.position;
+			moveDir.y = 0;
+			moveDir = moveDir.normalized;
 
-			Vector2 testLoc = (Vector2)testPoint.transform.position + MoveDir;
+			// If enemy isn't moving in the same direction, wait
+			if (!Utils.SameSign(moveDir.x, lastMoveDir.x))
+				CoroutineMgr.Start(StartCooldown(1.0f));
+
+			lastMoveDir = moveDir;
+			Vector2 testLoc = (Vector2)testPoint.transform.position + moveDir;
 
 			Collider2D Col = Physics2D.OverlapPoint(testLoc);
 			if (Col == null || Col.isTrigger)
