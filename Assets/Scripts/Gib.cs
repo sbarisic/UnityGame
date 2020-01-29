@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using System;
 
 public class Gib : MonoBehaviour {
-	public static bool Enabled = true;
+	public static bool Enabled = false;
 	static GameObject[] GibPrefabs = null;
 
 	public static void SpawnRandomGib(Vector2 Pos) {

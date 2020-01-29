@@ -109,6 +109,12 @@ public class PlayerController : Character {
 				FireGun(lookDir);
 			}
 		}
+
+		if (Input.GetKeyDown(KeyCode.Escape)) {
+			GameObject Canvas = GameObject.Find("Canvas");
+			if (Canvas != null)
+				Canvas.GetComponent<GUI>().ShowMainMenu(true);
+		}
 	}
 
 	public override void OnDie() {
@@ -194,7 +200,6 @@ public class PlayerController : Character {
 	// TODO: Move bullet speed to a variable
 	void FireGun(Vector2 Dir, float Speed = 16, int Damage = 10) {
 		anim.SetBool("Shooting", true);
-
 		GameObject Bullet = ObjectPool.Alloc(bulletPrefab);
 
 		Vector2 localGunPos = gunPos.localPosition;
