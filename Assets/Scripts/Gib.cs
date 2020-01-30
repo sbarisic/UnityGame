@@ -5,7 +5,16 @@ using UnityEngine.SceneManagement;
 using System;
 
 public class Gib : MonoBehaviour {
-	public static bool Enabled = false;
+	public static bool Enabled {
+		get {
+			return ValueSerializer.GetValue<bool>("GibEnabled");
+		}
+
+		set {
+			ValueSerializer.SetValue("GibEnabled", value);
+		}
+	}
+
 	static GameObject[] GibPrefabs = null;
 
 	public static void SpawnRandomGib(Vector2 Pos) {

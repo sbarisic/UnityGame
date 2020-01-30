@@ -36,20 +36,17 @@ public class PlayerController : Character {
 	float nextFireTime;
 	bool touchedEnemy;
 
-
+	GUI GameGUI;
 
 	public override void OnStart() {
+		GameGUI = GameObject.Find("Canvas")?.GetComponent<GUI>();
+
 		Vector3 Pos = transform.position;
-
 		Respawn();
-
 		transform.position = Pos;
 	}
 
 	void FixedUpdate() {
-		horizontalMoveInput = Input.GetAxisRaw("Horizontal");
-
-		//Debug.Log(string.Format("MoveInput = {0}, Angle = {1}", horizontalMoveInput, lastHitAngle));
 		if (!touchedEnemy) {
 			if (lastHitAngle > 135 && horizontalMoveInput > 0)
 				horizontalMoveInput = 0;
@@ -57,20 +54,17 @@ public class PlayerController : Character {
 				horizontalMoveInput = 0;
 		}
 
-		/*if (lastHitAngle < 135 && lastHitAngle > 45) {
-
-		}*/
-
 		body2d.velocity = new Vector2(horizontalMoveInput * movementSpeed, body2d.velocity.y);
 	}
 
 	public override void OnUpdate() {
+		if (GameGUI?.IsPaused() ?? false)
+			return;
+
+		horizontalMoveInput = Input.GetAxisRaw("Horizontal");
 		anim.SetFloat("Speed", Mathf.Abs(horizontalMoveInput));
 		anim.SetBool("Shooting", false);
-
 		isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
-		// body2d.sharedMaterial.friction = isGrounded ? 0.4f : 0.0f;
-
 
 		if (horizontalMoveInput > 0) {
 			rnd.flipX = true;
@@ -110,11 +104,8 @@ public class PlayerController : Character {
 			}
 		}
 
-		if (Input.GetKeyDown(KeyCode.Escape)) {
-			GameObject Canvas = GameObject.Find("Canvas");
-			if (Canvas != null)
-				Canvas.GetComponent<GUI>().ShowMainMenu(true);
-		}
+		if (Input.GetKeyDown(KeyCode.Escape))
+			GameGUI?.ShowMainMenu(true);
 	}
 
 	public override void OnDie() {
