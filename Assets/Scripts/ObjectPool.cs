@@ -40,6 +40,9 @@ static class ObjectPool {
 	}
 
 	public static bool Free(GameObject Obj) {
+		if (Obj == null)
+			return false;
+
 		if (!Obj.activeInHierarchy)
 			return false;
 

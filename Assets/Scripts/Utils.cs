@@ -12,13 +12,17 @@ static class Utils {
 
 	public static T Random<T>(T[] Arr) {
 		if (Arr.Length == 0)
-			return default(T);
+			return default;
 
 		return Arr[Rnd.Next(0, Arr.Length)];
 	}
 
 	public static float RandomFloat() {
 		return (float)Rnd.NextDouble();
+	}
+
+	public static int RandomInt(int Inclusive, int Exclusive) {
+		return Rnd.Next(Inclusive, Exclusive);
 	}
 
 	public static Color RandomColor() {

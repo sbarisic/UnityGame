@@ -28,9 +28,8 @@ class GUIElementState {
 }
 
 public class GUI : MonoBehaviour {
+	static bool AlreadyLoaded = false;
 	static float GUIAnimationTime = 600;
-
-	public GameObject EventSystem;
 
 	GUIElementState BtnHighscore;
 	GUIElementState BtnContinue;
@@ -41,11 +40,19 @@ public class GUI : MonoBehaviour {
 	GUIElementState PnlSettings;
 	GUIElementState PnlYesNo;
 	GUIElementState PnlHighscore;
+	GUIElementState PnlHUD;
 
 	List<GUIElementState> GUIStates = new List<GUIElementState>();
 
 	bool IsInPauseMenu;
 	Text HighscoreText;
+	Toggle TglGibsEnabled;
+	Slider SldMusic;
+	Slider SldSfx;
+
+	Text RickHealth;
+	Text LevelTime;
+	Text Score;
 
 	GUIElementState AddGUIState(string ElementName, Vector2 ShownPos) {
 		GameObject Obj = GameObject.Find(ElementName);
@@ -64,20 +71,25 @@ public class GUI : MonoBehaviour {
 		return IsInPauseMenu;
 	}
 
-	public void ShowMainMenu(bool IsInGame = false) {
-		BtnHighscore.Shown = true;
-
-		BtnContinue.Shown = (IsInPauseMenu = IsInGame);
-		BtnNewGame.Shown = true;
-		BtnSettings.Shown = true;
-		BtnQuit.Shown = true;
-	}
-
 	void Start() {
+		if (AlreadyLoaded) {
+			Destroy(gameObject);
+			return;
+		}
+
+		AlreadyLoaded = true;
+
 		DontDestroyOnLoad(gameObject);
-		DontDestroyOnLoad(EventSystem);
+		DontDestroyOnLoad(GameObject.Find("EventSystem"));
+
+		RickHealth = GameObject.Find("TxtRickHealth")?.GetComponent<Text>();
+		LevelTime = GameObject.Find("TxtLevelTime")?.GetComponent<Text>();
+		Score = GameObject.Find("TxtScore")?.GetComponent<Text>();
 
 		HighscoreText = GameObject.Find("HighscoreText")?.GetComponent<Text>();
+		TglGibsEnabled = GameObject.Find("TglGibsEnabled").GetComponent<Toggle>();
+		SldMusic = GameObject.Find("SldMusic").GetComponent<Slider>();
+		SldSfx = GameObject.Find("SldSfx").GetComponent<Slider>();
 
 		BtnHighscore = AddGUIState("BtnHighscore", new Vector2(90, 80));
 		BtnContinue = AddGUIState("BtnContinue", new Vector2(90, 20));
@@ -88,8 +100,26 @@ public class GUI : MonoBehaviour {
 		PnlSettings = AddGUIState("PnlSettings", new Vector2(250, 0));
 		PnlYesNo = AddGUIState("PnlYesNo", new Vector2(250, 0));
 		PnlHighscore = AddGUIState("PnlHighscore", new Vector2(250, 0));
+		PnlHUD = AddGUIState("PnlHUD", Vector2.zero);
+
 		ShowMainMenu();
+
+		SceneManager.sceneLoaded += (Scene, Mode) => {
+			if (Enum.TryParse(Scene.name, out AudioEffects AudioEffect))
+				AudioManager.PlayMusic(AudioEffect);
+		};
 	}
+
+	public void ShowMainMenu(bool IsInGame = false) {
+		BtnHighscore.Shown = true;
+
+		BtnContinue.Shown = (IsInPauseMenu = IsInGame);
+		BtnNewGame.Shown = true;
+		BtnSettings.Shown = true;
+		BtnQuit.Shown = true;
+		PnlHUD.Shown = IsInGame;
+	}
+
 
 	void Animate(GameObject Obj, Vector2 TargetPos) {
 		RectTransform Trans = Obj.GetComponent<RectTransform>();
@@ -99,25 +129,48 @@ public class GUI : MonoBehaviour {
 	void Update() {
 		foreach (var States in GUIStates)
 			Animate(States.Obj, States.GetTargetPos());
+
+
+	}
+
+	public void SetRickHealth(int Amt) {
+		RickHealth.text = string.Format("Rick\n{0}%", Amt);
+	}
+
+	public void SetScore(int Amt) {
+		Score.text = string.Format("Score\n{0}", Amt);
+	}
+
+	public void SetTime(int Amt) {
+		LevelTime.text = string.Format("Time\n{0}", Amt);
 	}
 
 	// Main menu buttons
 
 	public void OnHighscore() {
+		AudioManager.PlaySfx(AudioEffects.UIButton);
+
 		HighscoreText.text = Highscore.GetInstance().ToString();
 		PnlHighscore.Shown = true;
 	}
 
 	public void OnCloseHighscore() {
+		AudioManager.PlaySfx(AudioEffects.UIButton);
+
 		PnlHighscore.Shown = false;
 	}
 
 	public void OnContinue() {
+		AudioManager.PlaySfx(AudioEffects.UIButton);
+
 		HideAllElements();
 		IsInPauseMenu = false;
+		PnlHUD.Shown = true;
 	}
 
 	public void OnNewGame() {
+		AudioManager.PlaySfx(AudioEffects.UIButton);
+
 		if (IsPaused()) {
 			AskConfirmation("Start new game?", StartNewGame);
 			return;
@@ -127,27 +180,51 @@ public class GUI : MonoBehaviour {
 	}
 
 	void StartNewGame() {
-		OnContinue();
+		AudioManager.StopMusic();
+
+		HideAllElements();
+		IsInPauseMenu = false;
+		PnlHUD.Shown = true;
 		SceneManager.LoadScene("LevelOne");
 	}
 
 	public void OnSettings() {
-		GameObject.Find("TglGibsEnabled").GetComponent<Toggle>().isOn = Gib.Enabled;
+		AudioManager.PlaySfx(AudioEffects.UIButton);
+
+		TglGibsEnabled.isOn = Gib.Enabled;
+		SldMusic.value = AudioManager.VolumeMusic;
+		SldSfx.value = AudioManager.VolumeSfx;
+
 		PnlSettings.Shown = true;
 	}
 
 	public void OnQuit() {
-		AskConfirmation("Exit to desktop and discard progress?", Application.Quit);
+		AudioManager.PlaySfx(AudioEffects.UIButton);
+
+		if (IsInPauseMenu)
+			AskConfirmation("Exit to main menu?", () => {
+				SceneManager.LoadScene("MainMenu");
+				ShowMainMenu();
+			});
+		else
+			AskConfirmation("Exit to desktop and discard progress?", Application.Quit);
 	}
 
 	// Settings buttons
 
 	public void OnSettingsSave() {
+		AudioManager.PlaySfx(AudioEffects.UIButton);
+
 		PnlSettings.Shown = false;
-		Gib.Enabled = GameObject.Find("TglGibsEnabled").GetComponent<Toggle>().isOn;
+
+		Gib.Enabled = TglGibsEnabled.isOn;
+		AudioManager.VolumeMusic = SldMusic.value;
+		AudioManager.VolumeSfx = SldSfx.value;
 	}
 
 	public void OnSettingsCancel() {
+		AudioManager.PlaySfx(AudioEffects.UIButton);
+
 		PnlSettings.Shown = false;
 	}
 
@@ -167,12 +244,16 @@ public class GUI : MonoBehaviour {
 	}
 
 	public void OnYes() {
+		AudioManager.PlaySfx(AudioEffects.UIConfirm);
+
 		PnlYesNo.Shown = false;
 		OnYesAction?.Invoke();
 		OnYesAction = null;
 	}
 
 	public void OnNo() {
+		AudioManager.PlaySfx(AudioEffects.UICancel);
+
 		PnlYesNo.Shown = false;
 		OnNoAction?.Invoke();
 		OnNoAction = null;

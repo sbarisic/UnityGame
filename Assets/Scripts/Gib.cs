@@ -34,6 +34,11 @@ public class Gib : MonoBehaviour {
 	}
 
 	public static void SpawnRandomGibs(Vector2 Pos, int Count) {
+		if (!Enabled)
+			return;
+
+		AudioManager.PlaySfx(AudioEffects.Gibs);
+
 		for (int i = 0; i < Count; i++)
 			SpawnRandomGib(Pos);
 	}

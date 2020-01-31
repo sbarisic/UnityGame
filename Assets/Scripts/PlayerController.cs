@@ -5,7 +5,6 @@ using Cinemachine;
 using System.Threading;
 
 public class PlayerController : Character {
-
 	public Animator anim;
 
 	public GameObject deathParticle;
@@ -44,6 +43,13 @@ public class PlayerController : Character {
 		Vector3 Pos = transform.position;
 		Respawn();
 		transform.position = Pos;
+
+		InvokeRepeating(nameof(PlayWalkSound), 0, 0.3f);
+	}
+
+	void PlayWalkSound() {
+		if (horizontalMoveInput != 0 && isGrounded)
+			AudioManager.PlaySfx(AudioEffects.PlayerWalk);
 	}
 
 	void FixedUpdate() {
@@ -57,6 +63,13 @@ public class PlayerController : Character {
 		body2d.velocity = new Vector2(horizontalMoveInput * movementSpeed, body2d.velocity.y);
 	}
 
+	IEnumerator PlayLandSfxIfAlive() {
+		yield return new WaitForSeconds(0.025f);
+
+		if (health > 0)
+			AudioManager.PlaySfx(AudioEffects.PlayerLand);
+	}
+
 	public override void OnUpdate() {
 		if (GameGUI?.IsPaused() ?? false)
 			return;
@@ -64,7 +77,13 @@ public class PlayerController : Character {
 		horizontalMoveInput = Input.GetAxisRaw("Horizontal");
 		anim.SetFloat("Speed", Mathf.Abs(horizontalMoveInput));
 		anim.SetBool("Shooting", false);
-		isGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
+
+		bool isNowGrounded = Physics2D.OverlapCircle(feetPos.position, checkRadius, whatIsGround);
+
+		if (isNowGrounded && !isGrounded)
+			CoroutineMgr.Start(PlayLandSfxIfAlive());
+
+		isGrounded = isNowGrounded;
 
 		if (horizontalMoveInput > 0) {
 			rnd.flipX = true;
@@ -77,6 +96,7 @@ public class PlayerController : Character {
 
 		if (isGrounded == true && Input.GetButtonDown("Jump")) {
 			isJumping = true;
+			AudioManager.PlaySfx(AudioEffects.PlayerJump);
 			anim.SetBool("isJumping", isJumping);
 			jumpTimeCounter = jumpTime;
 			body2d.velocity = Vector2.up * jumpForce;
@@ -106,12 +126,26 @@ public class PlayerController : Character {
 
 		if (Input.GetKeyDown(KeyCode.Escape))
 			GameGUI?.ShowMainMenu(true);
+
+		// TODO: Update the score and time here
+		// Kill player when time runs out
+		GameGUI?.SetRickHealth(health);
+	}
+
+	public override void OnReceiveDamage(int Amt) {
+		base.OnReceiveDamage(Amt);
+
+		if (health > 0)
+			AudioManager.PlaySfx(AudioEffects.PlayerReceiveDamage);
 	}
 
 	public override void OnDie() {
+		AudioManager.PlaySfx(AudioEffects.PlayerDie);
+
 		SpawnParticles(deathParticle);
 		Gib.SpawnRandomGibs(transform.position, 5);
 
+		GameGUI?.SetRickHealth(0);
 		gameObject.SetActive(false);
 		vcam.enabled = false;
 
@@ -128,6 +162,9 @@ public class PlayerController : Character {
 	}
 
 	public override void Respawn() {
+		if (gameObject == null)
+			return;
+
 		gameObject.SetActive(true);
 
 		health = 20;
@@ -164,32 +201,10 @@ public class PlayerController : Character {
 		lastHitAngle = 90;
 	}
 
-	private void OnTriggerEnter2D(Collider2D collision) {
-
-	}
-
-	/*void OnCollisionEnter2D(Collision2D Other) {
-		int NumContacts = Other.GetContacts(Contacts);
-
-		for (int i = 0; i < NumContacts; i++) {
-			ContactPoint2D CP = Contacts[i];
-			float NormalAngle = Utils.Angle(Vector2.zero, CP.normal);
-
-			if (NormalAngle < 135 && NormalAngle > 45) {
-				//Debug.Log("Hit floor");
-			}
-
-
-
-			Debug.DrawLine(CP.point, CP.point + CP.normal * 1, Color.white, 5);
-		}
-
-		//Debug.Log("Collision enter " + NumContacts);
-	}*/
-
-
 	// TODO: Move bullet speed to a variable
 	void FireGun(Vector2 Dir, float Speed = 16, int Damage = 10) {
+		AudioManager.PlaySfx(AudioEffects.PlayerShoot);
+
 		anim.SetBool("Shooting", true);
 		GameObject Bullet = ObjectPool.Alloc(bulletPrefab);
 

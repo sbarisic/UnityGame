@@ -22,7 +22,7 @@ public class Portal : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision) {
-		if (collision.gameObject.tag == "Player") {
+		if (collision.gameObject.tag == Tags.Player) {
 			Destroy(collision.gameObject);
 
 			GameObject partObj = ObjectPool.Alloc(PortalParticles);
