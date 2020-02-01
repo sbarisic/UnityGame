@@ -41,6 +41,7 @@ public class GUI : MonoBehaviour {
 	GUIElementState PnlYesNo;
 	GUIElementState PnlHighscore;
 	GUIElementState PnlHUD;
+	GUIElementState PnlEnterHighscore;
 
 	List<GUIElementState> GUIStates = new List<GUIElementState>();
 
@@ -53,6 +54,10 @@ public class GUI : MonoBehaviour {
 	Text RickHealth;
 	Text LevelTime;
 	Text Score;
+
+	InputField InputNameField;
+
+	int PlayerScore;
 
 	GUIElementState AddGUIState(string ElementName, Vector2 ShownPos) {
 		GameObject Obj = GameObject.Find(ElementName);
@@ -85,6 +90,7 @@ public class GUI : MonoBehaviour {
 		RickHealth = GameObject.Find("TxtRickHealth")?.GetComponent<Text>();
 		LevelTime = GameObject.Find("TxtLevelTime")?.GetComponent<Text>();
 		Score = GameObject.Find("TxtScore")?.GetComponent<Text>();
+		InputNameField = GameObject.Find("InputNameField").GetComponent<InputField>();
 
 		HighscoreText = GameObject.Find("HighscoreText")?.GetComponent<Text>();
 		TglGibsEnabled = GameObject.Find("TglGibsEnabled").GetComponent<Toggle>();
@@ -101,6 +107,7 @@ public class GUI : MonoBehaviour {
 		PnlYesNo = AddGUIState("PnlYesNo", new Vector2(250, 0));
 		PnlHighscore = AddGUIState("PnlHighscore", new Vector2(250, 0));
 		PnlHUD = AddGUIState("PnlHUD", Vector2.zero);
+		PnlEnterHighscore = AddGUIState("PnlEnterHighscore", new Vector2(250, 0));
 
 		ShowMainMenu();
 
@@ -120,6 +127,11 @@ public class GUI : MonoBehaviour {
 		PnlHUD.Shown = IsInGame;
 	}
 
+	public void ShowSaveHighscore() {
+		HideAllElements();
+		InputNameField.text = "";
+		PnlEnterHighscore.Shown = true;
+	}
 
 	void Animate(GameObject Obj, Vector2 TargetPos) {
 		RectTransform Trans = Obj.GetComponent<RectTransform>();
@@ -138,11 +150,16 @@ public class GUI : MonoBehaviour {
 	}
 
 	public void SetScore(int Amt) {
+		PlayerScore = Amt;
 		Score.text = string.Format("Score\n{0}", Amt);
 	}
 
 	public void SetTime(int Amt) {
 		LevelTime.text = string.Format("Time\n{0}", Amt);
+	}
+
+	public void AddScore(int Amt) {
+		SetScore(PlayerScore + Amt);
 	}
 
 	// Main menu buttons
@@ -182,6 +199,8 @@ public class GUI : MonoBehaviour {
 	void StartNewGame() {
 		AudioManager.StopMusic();
 
+		SetScore(0);
+
 		HideAllElements();
 		IsInPauseMenu = false;
 		PnlHUD.Shown = true;
@@ -198,14 +217,16 @@ public class GUI : MonoBehaviour {
 		PnlSettings.Shown = true;
 	}
 
+	void ExitToMainMenu() {
+		SceneManager.LoadScene("MainMenu");
+		ShowMainMenu();
+	}
+
 	public void OnQuit() {
 		AudioManager.PlaySfx(AudioEffects.UIButton);
 
 		if (IsInPauseMenu)
-			AskConfirmation("Exit to main menu?", () => {
-				SceneManager.LoadScene("MainMenu");
-				ShowMainMenu();
-			});
+			AskConfirmation("Exit to main menu?", ExitToMainMenu);
 		else
 			AskConfirmation("Exit to desktop and discard progress?", Application.Quit);
 	}
@@ -257,5 +278,21 @@ public class GUI : MonoBehaviour {
 		PnlYesNo.Shown = false;
 		OnNoAction?.Invoke();
 		OnNoAction = null;
+	}
+
+	// Save highscore logic
+
+	public void OnSaveHighscore() {
+		string Name = InputNameField.text.Trim();
+		InputNameField.text = "";
+
+		if (string.IsNullOrWhiteSpace(Name))
+			return;
+
+		Highscore.GetInstance().Add(Name, PlayerScore);
+		PnlEnterHighscore.Shown = false;
+
+		ExitToMainMenu();
+		OnHighscore();
 	}
 }

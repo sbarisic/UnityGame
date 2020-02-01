@@ -7,7 +7,7 @@ using System;
 public class Gib : MonoBehaviour {
 	public static bool Enabled {
 		get {
-			return ValueSerializer.GetValue<bool>("GibEnabled");
+			return ValueSerializer.GetValue("GibEnabled", false);
 		}
 
 		set {
@@ -61,7 +61,7 @@ public class Gib : MonoBehaviour {
 	}
 
 	private void OnTriggerEnter2D(Collider2D collision) {
-		if (collision.gameObject.tag == "Death")
+		if (collision.gameObject.tag == Tags.Death)
 			FreeObject();
 	}
 }

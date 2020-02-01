@@ -86,7 +86,7 @@ public class Highscore : IValueSerializable {
 
 	public static Highscore GetInstance() {
 		if (List == null) {
-			List = ValueSerializer.GetValue<Highscore>(nameof(Highscore));
+			List = ValueSerializer.GetValue<Highscore>(nameof(Highscore), null);
 
 			if (List == null)
 				List = new Highscore();

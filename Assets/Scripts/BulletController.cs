@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class BulletController : MonoBehaviour {
@@ -10,10 +11,13 @@ public class BulletController : MonoBehaviour {
 
 	Rigidbody2D body2d;
 
+	public Action OnHitEnemy;
+
 	public void OnBulletCreated(Vector3 DirNormal, float Speed, int Damage, string Tag) {
 		this.DirNormal = DirNormal;
 		this.Speed = Speed;
 		this.Damage = Damage;
+		OnHitEnemy = null;
 
 		// TODO: Bullet alive for max 2 seconds, move to variable
 		DestroyTime = Time.time + 1.0f;
@@ -46,6 +50,8 @@ public class BulletController : MonoBehaviour {
 			EnemyController ECtrl = Other.gameObject.GetComponent<EnemyController>();
 			ECtrl.OnReceiveDamage(Damage);
 			//ECtrl.OnReceiveDamage(Damage);
+
+			OnHitEnemy?.Invoke();
 
 			ObjectPool.Free(gameObject);
 			return;

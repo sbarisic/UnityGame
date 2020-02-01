@@ -33,6 +33,7 @@ public class PlayerController : Character {
 	Vector2 lookDir;
 	float lastHitAngle = 90;
 	float nextFireTime;
+	float playerTimeDeadline;
 	bool touchedEnemy;
 
 	GUI GameGUI;
@@ -47,11 +48,6 @@ public class PlayerController : Character {
 		InvokeRepeating(nameof(PlayWalkSound), 0, 0.3f);
 	}
 
-	void PlayWalkSound() {
-		if (horizontalMoveInput != 0 && isGrounded)
-			AudioManager.PlaySfx(AudioEffects.PlayerWalk);
-	}
-
 	void FixedUpdate() {
 		if (!touchedEnemy) {
 			if (lastHitAngle > 135 && horizontalMoveInput > 0)
@@ -63,11 +59,29 @@ public class PlayerController : Character {
 		body2d.velocity = new Vector2(horizontalMoveInput * movementSpeed, body2d.velocity.y);
 	}
 
+	void PlayWalkSound() {
+		if (horizontalMoveInput != 0 && isGrounded)
+			AudioManager.PlaySfx(AudioEffects.PlayerWalk);
+	}
+
 	IEnumerator PlayLandSfxIfAlive() {
 		yield return new WaitForSeconds(0.025f);
 
 		if (health > 0)
 			AudioManager.PlaySfx(AudioEffects.PlayerLand);
+	}
+
+	void ResetPlayerTimer(float Amount = 40) {
+		playerTimeDeadline = Time.time + Amount;
+	}
+
+	int GetPlayerTimeLeft() {
+		return (int)(playerTimeDeadline - Time.time);
+	}
+
+	public void OnPortalEnter() {
+		ResetPlayerTimer();
+		GameGUI?.AddScore(GetPlayerTimeLeft());
 	}
 
 	public override void OnUpdate() {
@@ -128,8 +142,14 @@ public class PlayerController : Character {
 			GameGUI?.ShowMainMenu(true);
 
 		// TODO: Update the score and time here
-		// Kill player when time runs out
+
+		int TimeLeft = GetPlayerTimeLeft();
+
 		GameGUI?.SetRickHealth(health);
+		GameGUI?.SetTime(TimeLeft);
+
+		if (TimeLeft <= 0 && health > 0)
+			OnReceiveDamage(9999);
 	}
 
 	public override void OnReceiveDamage(int Amt) {
@@ -146,6 +166,8 @@ public class PlayerController : Character {
 		Gib.SpawnRandomGibs(transform.position, 5);
 
 		GameGUI?.SetRickHealth(0);
+		GameGUI?.AddScore(-10);
+
 		gameObject.SetActive(false);
 		vcam.enabled = false;
 
@@ -166,6 +188,7 @@ public class PlayerController : Character {
 			return;
 
 		gameObject.SetActive(true);
+		ResetPlayerTimer();
 
 		health = 20;
 		lookDir = new Vector2(1, 0);
@@ -213,6 +236,9 @@ public class PlayerController : Character {
 			localGunPos *= new Vector2(-1, 1);
 
 		Bullet.transform.position = transform.position + (Vector3)localGunPos;
-		Bullet.GetComponent<BulletController>().OnBulletCreated(Dir, Speed, Damage, Tags.BulletPlayer);
+
+		BulletController BulletCnt = Bullet.GetComponent<BulletController>();
+		BulletCnt.OnBulletCreated(Dir, Speed, Damage, Tags.BulletPlayer);
+		BulletCnt.OnHitEnemy = () => GameGUI?.AddScore(1);
 	}
 }
