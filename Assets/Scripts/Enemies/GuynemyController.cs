@@ -22,6 +22,7 @@ public class GuynemyController : EnemyController {
 		player = GameObject.FindGameObjectWithTag(Tags.Player);
 		anim = GetComponent<Animator>();
 		IsFlying = false;
+		health = 30;
 
 		base.OnStart();
 
@@ -53,7 +54,7 @@ public class GuynemyController : EnemyController {
 		yield return new WaitForSeconds(0.2f);
 
 		if (Vector2.Distance(transform.position, player.transform.position) < hitRange)
-			player?.GetComponent<PlayerController>()?.OnReceiveDamage(10);
+			player?.GetComponent<PlayerController>()?.OnReceiveDamage(20);
 
 		anim.SetBool("canHit", false);
 		yield return new WaitForSeconds(1);
@@ -81,7 +82,7 @@ public class GuynemyController : EnemyController {
 
 			// If enemy isn't moving in the same direction, wait
 			if (!Utils.SameSign(moveDir.x, lastMoveDir.x))
-				CoroutineMgr.Start(StartCooldown(1.0f));
+				CoroutineMgr.Start(StartCooldown(0.25f));
 
 			lastMoveDir = moveDir;
 			Vector2 testLoc = (Vector2)testPoint.transform.position + moveDir;

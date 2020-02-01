@@ -41,7 +41,7 @@ class AudioClipSet {
 class AudioManager : MonoBehaviour {
 	public static float VolumeSfx {
 		get {
-			return ValueSerializer.GetValue<float>(nameof(VolumeSfx));
+			return ValueSerializer.GetValue(nameof(VolumeSfx), 0.5f);
 		}
 
 		set {
@@ -51,7 +51,7 @@ class AudioManager : MonoBehaviour {
 
 	public static float VolumeMusic {
 		get {
-			return ValueSerializer.GetValue<float>(nameof(VolumeMusic));
+			return ValueSerializer.GetValue(nameof(VolumeMusic), 0.2f);
 		}
 
 		set {

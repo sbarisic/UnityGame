@@ -128,7 +128,7 @@ static class ValueSerializer {
 		}
 	}
 
-	public static T GetValue<T>(string Name) {
+	public static T GetValue<T>(string Name, T DefaultValue) {
 		if (Fields.Count == 0)
 			Deserialize();
 
@@ -136,9 +136,8 @@ static class ValueSerializer {
 			if (F.Name == Name)
 				return F.GetValue<T>();
 
-		T Val = default;
-		SetValue(Name, Val);
-		return Val;
+		SetValue(Name, DefaultValue);
+		return DefaultValue;
 	}
 
 	public static void SetValue<T>(string Name, T Val) {
