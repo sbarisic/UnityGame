@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WormnemyController : EnemyController {
+
 	public override void OnStart() {
 		IsFlying = false;
 		base.OnStart();
 		health = 30;
 	}
-	public virtual void DoFlipTowardsMoveDir(Vector2 MoveDir) {
+	public override void DoFlipTowardsMoveDir(Vector2 MoveDir) {
 		if (MoveDir.x > 0) {
 			rnd.flipX = true;
 		} else if (MoveDir.x < 0) {
@@ -26,18 +27,22 @@ public class WormnemyController : EnemyController {
 
 	}
 
-	public override void OnDie() {
-		
-		//TODO: Spawn two more on one killed and ignore collision between enemies
-
-		Instantiate(gameObject);
-
-		
-
-
-
+	public override void OnReceiveDamage(int Amt) {
+		base.OnReceiveDamage(Amt);
 	}
 
+	public override void OnDie() {
+		base.OnDie();
+	}
+
+
+	void SpawnEnemy(float t) {
+		for (int i = 0; i < 2; i++) {
+
+			Instantiate(gameObject);
+			Destroy(gameObject, t);
+		}
+	}
 
 	public override int GetPlayerDamage() {
 		return 10;

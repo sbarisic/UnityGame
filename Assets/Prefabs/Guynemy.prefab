@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2841530789014050475}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: TestPoint
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -44,7 +44,7 @@ GameObject:
   - component: {fileID: 70769065636339158}
   - component: {fileID: 1002912627438354979}
   - component: {fileID: 50484332662543030}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Guynemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}

@@ -29,7 +29,7 @@ public class Character : MonoBehaviour {
 
 	public virtual void OnReceiveDamage(int Amt) {
 		health -= Amt;
-		rnd.color = new Color(0.47f, 0.08f, 0.05f);
+		
 		StartCoroutine(ChangeColor());
 
 		if (health <= 0) {
@@ -69,6 +69,7 @@ public class Character : MonoBehaviour {
 	}
 
 	IEnumerator ChangeColor() {
+		rnd.color = new Color(0.47f, 0.08f, 0.05f);
 		yield return new WaitForSeconds(0.1f);
 		rnd.color = Color.white;
 	}
